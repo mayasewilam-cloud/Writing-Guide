@@ -955,7 +955,7 @@
   </div>
 
   <!-- Passcode Unlock Gate: Unauthenticated Visitor -->
-  <div class="fac-gate-overlay" id="fac-login-overlay">
+  <div class="fac-gate-overlay" id="fac-login-overlay" style="display: flex;">
     <div class="fac-gate-card">
       <div class="fac-gate-icon">👨‍🏫</div>
       <div><span class="faculty-access-badge">BT_301 Course Faculty</span></div>
@@ -993,7 +993,7 @@
   <!-- ========================================================================
        AUTHENTICATED FACULTY CONTENT CONTAINER (HIDDEN UNTIL UNLOCKED)
        ======================================================================== -->
-  <div id="fac-authenticated-content">
+  <div id="fac-authenticated-content" style="display: none;">
 
   <!-- ========================================================================
        VIEW 1: 👥 COHORT ROSTER & CLASS ANALYTICS
@@ -1750,36 +1750,37 @@
         });
       }
 
-      // 5. Check Authentication Status
-      const serverAuthEl = document.getElementById("server-auth-data");
-      let isServerAuth = false;
-      let isServerDenied = false;
-      if (serverAuthEl && serverAuthEl.dataset) {
-        const authAttr = serverAuthEl.getAttribute("data-authenticated");
-        if (authAttr && !authAttr.includes("{" + "%")) {
-          isServerAuth = authAttr === "true";
-        }
-        const deniedAttr = serverAuthEl.getAttribute("data-access-denied");
-        if (deniedAttr && !deniedAttr.includes("{" + "%")) {
-          isServerDenied = deniedAttr === "true";
-        }
+      // 5. Always Require Faculty Passcode on Load
+      // Always require passcode entry to access the faculty portal
+      sessionStorage.removeItem("biowriter_faculty_session");
+      localStorage.removeItem("biowriter_faculty_session");
+
+      const deniedOverlay = document.getElementById("fac-denied-overlay");
+      const loginOverlay = document.getElementById("fac-login-overlay");
+      const authContent = document.getElementById("fac-authenticated-content");
+      const navSelector = document.getElementById("fac-view-mode-selector");
+      const navActions = document.getElementById("fac-top-nav-actions");
+
+      if (deniedOverlay) {
+        deniedOverlay.classList.remove("fac-gate-visible");
+        deniedOverlay.style.display = "none";
+      }
+      if (authContent) {
+        authContent.classList.remove("fac-auth-visible");
+        authContent.style.display = "none";
+      }
+      if (navSelector) navSelector.style.display = "none";
+      if (navActions) navActions.style.display = "none";
+
+      if (loginOverlay) {
+        loginOverlay.classList.remove("fac-gate-hidden");
+        loginOverlay.style.display = "flex";
       }
 
-      const isClientAuth = sessionStorage.getItem("biowriter_faculty_session") === "true" || localStorage.getItem("biowriter_faculty_session") === "true";
-
-      if (isClientAuth) {
-        unlockFacultyStudio(false);
-      } else {
-        const deniedOverlay = document.getElementById("fac-denied-overlay");
-        const loginOverlay = document.getElementById("fac-login-overlay");
-        if (deniedOverlay) {
-          deniedOverlay.classList.remove("fac-gate-visible");
-          deniedOverlay.style.display = "none";
-        }
-        if (loginOverlay) {
-          loginOverlay.classList.remove("fac-gate-hidden");
-          loginOverlay.style.display = "flex";
-        }
+      const pwdInput = document.getElementById("fac-passcode-input");
+      if (pwdInput) {
+        pwdInput.value = "";
+        setTimeout(() => pwdInput.focus(), 100);
       }
 
       // 6. Wire Interactive Tools
@@ -1962,7 +1963,7 @@
 
       if (isMatch) {
         sessionStorage.setItem("biowriter_faculty_session", "true");
-        localStorage.setItem("biowriter_faculty_session", "true");
+        // localStorage disabled so password is required on new visits
         unlockFacultyStudio(true);
         if (btn) {
           btn.disabled = false;
@@ -1970,7 +1971,7 @@
         }
       } else {
         if (errBox) {
-          errBox.innerText = "Incorrect passcode. Accepted: faculty2026 or IntroKingss";
+          errBox.innerText = "Incorrect instructor access passcode. Please try again.";
           errBox.style.display = "block";
         }
         if (btn) {
