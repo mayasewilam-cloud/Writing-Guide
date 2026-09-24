@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BioWriter Studio • BT_301 Research & Proposal Writing</title>
+  <!-- Universal Stylesheet (Works on GitHub Pages, Flask, Render, Vercel & Desktop) -->
+  <link rel="stylesheet" href="studio.css" id="app-stylesheet" onerror="if(!this._c1){this._c1=1;this.href='static/studio.css';}else if(this._c1===1){this._c1=2;this.href='../studio.css';}else if(this._c1===2){this._c1=3;this.href='../static/studio.css';}">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" onerror="if(!this._f1){this._f1=1;this.href='static/favicon.svg';}else if(this._f1===1){this._f1=2;this.href='../favicon.svg';}">
+  <link rel="alternate icon" href="favicon.svg">
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="top-navbar">
+    <div class="brand-section">
+      <div class="brand-logo">🧬</div>
+      <div class="brand-info-wrap">
+        <div class="brand-title-line">
+          <span class="brand-name">BioWriter Studio</span>
+          <span class="brand-badge-course">BT_301</span>
+          <span class="brand-author-pill" title="Protected Academic Framework & Intellectual Property">
+            🛡️ <span class="author-name">Maya Abdelrazek & Youssef Aboulkheir</span>
+          </span>
+        </div>
+        <div class="brand-sub-line">
+          <span id="save-status" class="save-status-text">● All progress saved automatically</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segmented View Mode Selector -->
+    <div class="view-mode-selector" id="view-mode-selector" style="display: none;">
+      <button type="button" class="btn-view-mode active" data-view="studio" id="btn-view-studio">✍️ Studio</button>
+      <button type="button" class="btn-view-mode" data-view="split" id="btn-view-split">📖 Split Preprint</button>
+      <button type="button" class="btn-view-mode" data-view="visuals" id="btn-view-visuals">🎨 Figures Hub</button>
+      <button type="button" class="btn-view-mode" data-view="breakthroughs" id="btn-view-breakthroughs">⚡ Breakthroughs</button>
+    </div>
+
+    <div class="top-nav-actions">
+      <!-- Student Auth Status & Sign-In Trigger -->
+      <div class="auth-wrapper" id="auth-wrapper">
+        <!-- Unauthenticated Trigger -->
+        <button type="button" class="btn-auth-trigger" id="btn-open-auth-modal" title="Sign in with your Student ID or create an account">
+          <span>🔑</span> <span>Sign In / Register</span>
+        </button>
+
+        <!-- Authenticated State -->
+        <div class="auth-user-dropdown-wrap" id="auth-user-dropdown-wrap" style="display: none;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <button type="button" class="btn-user-profile" id="btn-user-profile-trigger" title="Your student profile">
+              <span class="user-avatar-circle">👤</span>
+              <span class="user-profile-text" id="user-display-name">Student ID</span>
+              <span class="caret-icon">▾</span>
+            </button>
+            <button type="button" class="btn-student-direct-logout" id="btn-student-direct-logout" title="Sign out of student account">
+              <span>🚪</span> <span>Sign Out</span>
+            </button>
+          </div>
+          <div class="auth-user-menu" id="auth-user-menu">
+            <div class="user-menu-header">
+              <div class="user-menu-name" id="menu-student-name">Student Name</div>
+              <div class="user-menu-id" id="menu-student-id">ST-2026-01</div>
+            </div>
+            <div class="user-menu-status">
+              <span class="status-pulse-dot">●</span> <span>Cloud Auto-Sync Active</span>
+            </div>
+            <button type="button" class="user-menu-item user-menu-logout" id="btn-action-logout">
+              <span>🚪</span> <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <a href="faculty.html" class="btn-nav-action" id="btn-top-faculty-link" style="text-decoration: none; display: inline-flex; align-items: center; gap: 5px; color: #475569; font-weight: 600;" title="Faculty & Instructor Portal"><span>🔒</span> <span>Faculty Portal</span></a>
+      <button id="btn-open-paper-decoder" type="button" class="btn-nav-action" title="Jump to the Scientific Paper Decoder in Step 1">
+        <span>🔬</span> <span>Paper Decoder</span>
+      </button>
+
+      <!-- Backward-compatible hidden button for Figures Hub -->
+      <button id="btn-open-visual-hub" style="display: none;"></button>
+    </div>
+  </header>
+
+  <!-- Sequential 4-Phase Workspace Layout -->
+    <!-- Student Authentication Gate: Students Sign In First to Submit Proposals -->
+  <div class="student-auth-gate" id="student-auth-gate" style="display: flex;">
+    <div class="auth-gate-card">
+      <div class="auth-gate-header">
+        <div class="auth-gate-logo">🧬</div>
+        <div>
+          <span class="auth-gate-course-tag">BT_301 Biotechnology Proposal Studio</span>
+        </div>
+        <h1 class="auth-gate-title">Student Access & Submission Portal</h1>
+        <p class="auth-gate-desc">
+          Sign in with your Student ID to access, edit, and submit your biotechnology research proposal, or register your team to start a new proposal.
+        </p>
+      </div>
+
+      <!-- Segmented Tab Bar -->
+      <div class="auth-tab-bar">
+        <button type="button" class="auth-tab-btn active" id="gate-tab-signin" data-tab="signin">🔑 Sign In</button>
+        <button type="button" class="auth-tab-btn" id="gate-tab-register" data-tab="register">✨ Create Account</button>
+      </div>
+
+      <!-- Alert Banner -->
+      <div class="auth-alert-banner" id="gate-auth-alert-banner" style="display: none;"></div>
+
+      <!-- Form 1: Sign In -->
+      <form id="gate-form-signin" class="auth-tab-content">
+        <div class="auth-form-group">
+          <label for="gate-signin-id" class="auth-field-label">Student ID / Team Code</label>
+          <input type="text" id="gate-signin-id" class="form-input" placeholder="e.g. 13989 or ST-2026-01" required autocomplete="username">
+        </div>
+
+        <div class="auth-form-group">
+          <label for="gate-signin-pwd" class="auth-field-label">Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="gate-signin-pwd" class="form-input" placeholder="Enter your password (Demo password: bio123)" required autocomplete="current-password">
+            <button type="button" class="btn-toggle-pwd" data-target="gate-signin-pwd" title="Show/Hide password">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth-submit" id="btn-gate-submit-signin">
+          <span>🚀 Sign In & Open Studio</span>
+        </button>
+
+        <!-- 1-Click Quick Fill Demo Accounts -->
+        <div class="auth-gate-quick-fill">
+          <span class="quick-fill-label">1-Click Demo Cohort Accounts:</span>
+          <div class="quick-fill-chips">
+            <button type="button" class="btn-quick-fill" data-id="13989" title="1-Click login as Maya">🛡️ Maya Abdelrazek (13989)</button>
+            <button type="button" class="btn-quick-fill" data-id="ST-2026-01" title="1-Click login as Sara Ahmed">🧬 Sara Ahmed (ST-2026-01)</button>
+            <button type="button" class="btn-quick-fill" data-id="ST-2026-02" title="1-Click login as Zaid Ibrahim">♻️ Zaid Ibrahim (ST-2026-02)</button>
+            <button type="button" class="btn-quick-fill" data-id="ST-2026-03" title="1-Click login as Nour Al-Huda">🌾 Nour Al-Huda (ST-2026-03)</button>
+          </div>
+          <button type="button" class="btn-demo-preview" id="btn-preview-demo" style="width: 100%; margin-top: 10px; padding: 10px 14px; background: #f8fafc; border: 1px dashed #94a3b8; border-radius: 8px; font-size: 0.8rem; font-weight: 600; color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span>👀</span> <span>Instant Demo Preview: Open Maya's Proposal (13989) with Faculty Directives</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Form 2: Create Account -->
+      <form id="gate-form-register" class="auth-tab-content" style="display: none;">
+        <div class="auth-form-group">
+          <label for="gate-reg-id" class="auth-field-label">Choose Student ID / Team Code</label>
+          <input type="text" id="gate-reg-id" class="form-input" placeholder="e.g. ST-2026-05 or your University ID" required autocomplete="username">
+        </div>
+
+        <div class="auth-form-group">
+          <label for="gate-reg-name" class="auth-field-label">Principal Investigator(s) / Team Name</label>
+          <input type="text" id="gate-reg-name" class="form-input" placeholder="e.g. Maya Lin & Team NeuroBio" required>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="gate-reg-pwd" class="auth-field-label">Create Password (min. 4 characters)</label>
+          <div class="password-input-wrap">
+            <input type="password" id="gate-reg-pwd" class="form-input" placeholder="Choose your secure password" required minlength="4" autocomplete="new-password">
+            <button type="button" class="btn-toggle-pwd" data-target="gate-reg-pwd" title="Show/Hide password">👁️</button>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="gate-reg-pwd-confirm" class="auth-field-label">Confirm Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="gate-reg-pwd-confirm" class="form-input" placeholder="Re-enter your password" required minlength="4" autocomplete="new-password">
+            <button type="button" class="btn-toggle-pwd" data-target="gate-reg-pwd-confirm" title="Show/Hide password">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth-submit" id="btn-gate-submit-register">
+          <span>✨ Create Account & Start Proposal</span>
+        </button>
+
+        <div class="auth-footer-help">
+          Your password encrypts and secures your research proposal drafts.
+        </div>
+      </form>
+
+      <!-- Footer navigation -->
+      <div class="auth-gate-footer-nav" style="justify-content: center; gap: 12px; font-size: 0.74rem; color: #64748b; margin-top: 20px; display: flex; align-items: center;">
+        <span>Course: BT_301 Introduction to Biotechnology</span>
+        <span>•</span>
+        <a href="faculty.html" style="color: #64748b; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" title="BT_301 Course Faculty & Staff Access (Shortcut: Ctrl+Shift+F)">
+          <span>🔒</span> <span>Faculty & Staff Portal</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="studio-workspace" id="studio-workspace" style="display: none;">
+    <!-- Zone 1: Left Navigation Timeline Sidebar -->
+    <aside class="studio-sidebar" id="studio-sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-badge-top">BT_301 WORKFLOW</span>
+        <span class="sidebar-title">Research Roadmap</span>
+      </div>
+
+      <nav class="sidebar-steps-nav">
+        <div class="sidebar-step-item step-indicator active" data-step="1" id="side-step-1">
+          <div class="sidebar-step-circle">01</div>
+          <div class="sidebar-step-info">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="sidebar-step-name">Phase 1: Topic & Context</span>
+              <span class="phase-status-pill unlocked" id="phase-badge-1">● Open</span>
+            </div>
+            <span class="sidebar-step-desc">Header, Nouns & Sec 2</span>
+          </div>
+          <div class="sidebar-step-check">✓</div>
+        </div>
+
+        <div class="sidebar-step-item step-indicator" data-step="2" id="side-step-2">
+          <div class="sidebar-step-circle">02</div>
+          <div class="sidebar-step-info">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="sidebar-step-name">Phase 2: Scientific Plan</span>
+              <span class="phase-status-pill unlocked" id="phase-badge-2">● Open</span>
+            </div>
+            <span class="sidebar-step-desc">Aims, Methods & Risks</span>
+          </div>
+          <div class="sidebar-step-check">✓</div>
+        </div>
+
+        <div class="sidebar-step-item step-indicator" data-step="3" id="side-step-3">
+          <div class="sidebar-step-circle">03</div>
+          <div class="sidebar-step-info">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="sidebar-step-name">Phase 3: Strategy & Feasibility</span>
+              <span class="phase-status-pill unlocked" id="phase-badge-3">● Open</span>
+            </div>
+            <span class="sidebar-step-desc">Ansoff, SWOT, Gantt & EGP Budget</span>
+          </div>
+          <div class="sidebar-step-check">✓</div>
+        </div>
+
+        <div class="sidebar-step-item step-indicator" data-step="4" id="side-step-4">
+          <div class="sidebar-step-circle">04</div>
+          <div class="sidebar-step-info">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="sidebar-step-name">Phase 4: Synthesis & Submission</span>
+              <span class="phase-status-pill unlocked" id="phase-badge-4">● Open</span>
+            </div>
+            <span class="sidebar-step-desc">Abstract, References & Full Preview</span>
+          </div>
+          <div class="sidebar-step-check">✓</div>
+        </div>
+      </nav>
+
+      <!-- Circular Scientific Readiness & Milestone Gauge -->
+      <div class="sidebar-rubric-card" id="sidebar-rubric-card">
+        <div class="rubric-gauge-header">
+          <span class="gauge-title">Proposal Milestones</span>
+          <span class="gauge-status-badge" id="gauge-status-badge">Formulating</span>
+        </div>
+        <div class="rubric-ring-container">
+          <svg class="rubric-ring-svg" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="rubricRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4f46e5" />
+                <stop offset="100%" stop-color="#06b6d4" />
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="50" cy="50" r="38" />
+            <circle class="ring-fill" id="sidebar-ring-fill" cx="50" cy="50" r="38" stroke-dasharray="238.76" stroke-dashoffset="238.76" stroke="url(#rubricRingGrad)" />
+          </svg>
+          <div class="ring-center-content">
+            <div class="ring-score-number" id="sidebar-readiness-number">0%</div>
+            <div class="ring-score-denom">Complete</div>
+          </div>
+        </div>
+        <div class="rubric-breakdown-list">
+          <div class="rubric-row"><span class="rubric-dot dot-title"></span><span>Phase 1: Topic & Context (Sec 2)</span><span class="rubric-pts" id="score-item-title">Pending</span></div>
+          <div class="rubric-row"><span class="rubric-dot dot-aims"></span><span>Phase 2: Plan & Methods (Sec 3-5)</span><span class="rubric-pts" id="score-item-aims">Pending</span></div>
+          <div class="rubric-row"><span class="rubric-dot dot-funnel"></span><span>Phase 3: Strategy & Budget (Sec 6-9)</span><span class="rubric-pts" id="score-item-funnel">Pending</span></div>
+          <div class="rubric-row"><span class="rubric-dot dot-abstract"></span><span>Phase 4: Abstract & Preview (Sec 1, 10)</span><span class="rubric-pts" id="score-item-abs">Pending</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Zone 2: Center Writing Canvas -->
+    <main class="studio-canvas wizard-steps-pane" id="wizard-steps-pane">
+
+      <!-- Guest Mode Status Notification (Visible in Guest Mode) -->
+      <div id="workspace-guest-banner" class="workspace-guest-notification" style="display: none; background: linear-gradient(90deg, #eff6ff, #f0fdf4); border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 10px 18px; margin-bottom: 18px; align-items: center; justify-content: space-between; gap: 14px; box-shadow: 0 2px 6px rgba(30,58,138,0.06);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.25rem;">👁️</span>
+          <span style="font-size: 0.83rem; color: #1e3a8a; line-height: 1.45;">
+            <strong>Guest Mode Active:</strong> You are exploring BioWriter Studio with full interactive access across all 4 phases and 10 proposal sections. Your draft is auto-saved locally in your browser.
+          </span>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button type="button" id="btn-guest-banner-signin" class="btn-guest-action-signin" style="background: #4f46e5; color: #ffffff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 4px rgba(79,70,229,0.25);">
+            <span>🔑</span> <span>Sign In to Cloud</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Proposal Context & Identity Header -->
+      <div class="proposal-meta-card">
+        <div class="meta-card-top">
+          <div class="meta-title-group">
+            <label for="student-name-input" class="meta-field-label">
+              <span class="meta-label-icon">👤</span>
+              <span>Principal Investigator(s) / Team Lead</span>
+            </label>
+            <input type="text" id="student-name-input" class="form-input meta-input-name" placeholder="e.g. Sara Ahmed & Team BioInnovate">
+          </div>
+
+          <div class="meta-id-group">
+            <label for="student-id-input" class="meta-field-label">
+              <span class="meta-label-icon">🏷️</span>
+              <span>Student ID / Team Code</span>
+            </label>
+            <div class="meta-id-input-wrap">
+              <input type="text" id="student-id-input" class="form-input meta-input-id" placeholder="e.g. ST-2026-01">
+              <button type="button" id="btn-sync-server-draft" class="btn-meta-save" title="Save draft to instructor database">
+                <span>💾</span>
+                <span class="btn-save-text">Save Draft</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="meta-score-group">
+            <div class="meta-score-label">Scientific Readiness</div>
+            <div class="meta-score-val" id="header-readiness-badge" style="font-size: 1.05rem; color: #4338ca; font-weight: 800;">🌱 Formulating</div>
+            <div class="meta-score-sub" id="header-readiness-summary">Milestones: 0/10 Met</div>
+          </div>
+
+          <div class="meta-lock-group" style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 4px;">
+            <button type="button" id="btn-toggle-draft-lock" class="btn-lock-proposal" title="Lock proposal to prevent further edits before official faculty grading">
+              <span id="lock-icon">🔓</span> <span id="lock-label">Lock for Grading</span>
+            </button>
+            <span id="lock-subtext" style="font-size: 0.7rem; color: #64748b;">Editable draft</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instructor Review & Action Items Banner -->
+      <div id="instructor-review-banner" class="instructor-review-card" style="display: none;">
+        <div class="review-banner-header">
+          <div class="review-banner-title">
+            <span class="review-badge-icon">🎓</span>
+            <div>
+              <div style="font-size: 0.96rem; font-weight: 800; color: #0f172a;">Official Faculty Evaluation & Revision Directive</div>
+              <div id="review-banner-meta" style="font-size: 0.78rem; color: #64748b;">Reviewed by BT_301 Faculty Evaluation Board</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span id="review-banner-standing" class="status-pill status-grant-ready">🌟 Grant-Ready</span>
+            <button type="button" id="btn-view-faculty-memo" class="btn-review-memo">📜 View Instructor Memo</button>
+          </div>
+        </div>
+        <div id="review-banner-action-items-wrap" style="margin-top: 12px; background: #ffffff; border-radius: 10px; padding: 14px 16px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+            <div style="font-size: 0.84rem; font-weight: 800; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+              <span>📋</span> <span>Required Revisions & Action Items Checklist:</span>
+            </div>
+            <span id="revision-progress-badge" class="status-pill" style="font-size: 0.72rem; padding: 3px 9px; background: #e0e7ff; color: #4338ca; border: 1px solid #c7d2fe; font-weight: 700;">
+              0 of 0 Completed
+            </span>
+          </div>
+          <div style="width: 100%; height: 6px; background: #f1f5f9; border-radius: 999px; overflow: hidden; margin-bottom: 12px;">
+            <div id="revision-progress-bar-fill" style="width: 0%; height: 100%; background: #4f46e5; transition: width 0.3s ease;"></div>
+          </div>
+          <div id="review-banner-action-list" class="review-action-list" style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 0.82rem; color: #64748b;">Review completed. No further revisions required.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submission Frozen Alert Banner (When Locked) -->
+      <div id="draft-locked-banner" class="draft-locked-alert" style="display: none;">
+        <span style="font-size: 1.3rem;">🔒</span>
+        <div style="flex: 1;">
+          <strong style="color: #92400e; font-size: 0.88rem;">Proposal Submission Frozen for Official Faculty Review</strong>
+          <div style="font-size: 0.8rem; color: #78350f; margin-top: 2px;">Editing is currently locked to preserve submission integrity. Click "Unlock to Edit" above if you need to make revisions.</div>
+        </div>
+      </div>
+
+      <!-- 4 Open Phases Segmented Tab Bar at Top of Canvas -->
+      <div class="phase-nav-tabs-bar" id="phase-nav-tabs">
+        <button type="button" class="btn-phase-tab active" data-goto="1" id="tab-phase-1">
+          <span class="phase-tab-num">01</span>
+          <div class="phase-tab-text">
+            <span class="phase-tab-title">Phase 1: Topic & Context</span>
+            <span class="phase-tab-sub">Header, Nouns & Section 2</span>
+          </div>
+          <span class="phase-tab-badge">● Open</span>
+        </button>
+
+        <button type="button" class="btn-phase-tab" data-goto="2" id="tab-phase-2">
+          <span class="phase-tab-num">02</span>
+          <div class="phase-tab-text">
+            <span class="phase-tab-title">Phase 2: Scientific Plan</span>
+            <span class="phase-tab-sub">Aims, Methods & Risks</span>
+          </div>
+          <span class="phase-tab-badge">● Open</span>
+        </button>
+
+        <button type="button" class="btn-phase-tab" data-goto="3" id="tab-phase-3">
+          <span class="phase-tab-num">03</span>
+          <div class="phase-tab-text">
+            <span class="phase-tab-title">Phase 3: Strategy & Feasibility</span>
+            <span class="phase-tab-sub">Ansoff, SWOT, Gantt & EGP Budget</span>
+          </div>
+          <span class="phase-tab-badge">● Open</span>
+        </button>
+
+        <button type="button" class="btn-phase-tab" data-goto="4" id="tab-phase-4">
+          <span class="phase-tab-num">04</span>
+          <div class="phase-tab-text">
+            <span class="phase-tab-title">Phase 4: Synthesis & Submission</span>
+            <span class="phase-tab-sub">Abstract, References & Live Preview</span>
+          </div>
+          <span class="phase-tab-badge">● Open</span>
+        </button>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- PHASE 1: Topic Formulation, Project Header & Context Background    -->
+      <!-- ================================================================= -->
+      <div id="step-panel-1" class="step-panel active">
+        <div class="step-hero">
+          <span class="step-badge">Phase 1 of 4 • Topic & Context Formulation</span>
+          <h1 class="step-heading">Topic Formulation, Project Header & Context Background</h1>
+          <p class="step-subheading">
+            Set up your official team roster, define your 3 Magic Nouns with plain-English analogies, decode primary literature benchmarks, and craft Section 2 (Problem Statement, Multi-Domain Impact, and Target Audience).
+          </p>
+        </div>
+
+        <!-- 1. Official Project Information & Team Roster Card -->
+        <div class="guide-card" style="border-top: 4px solid #4338ca; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #312e81;">
+              📋 Official Project Information & Team Roster
+            </div>
+            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Official BT_301 Assignment Header</span>
+          </div>
+
+          <div class="subtitle-guide-box" style="background: #eef2ff; border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #312e81; margin-bottom: 14px; line-height: 1.5;">
+            <div><strong>📌 University Assignment Header:</strong> Specify your official project title, list all team members with student IDs and university emails, and record the submission date as required in the BT_301 official template.</div>
+          </div>
+
+          <!-- Project Title -->
+          <div class="field-block" style="margin-bottom: 16px;">
+            <div class="field-split" style="margin-bottom: 6px;">
+              <label class="field-label" for="proposal-title-input" style="margin-bottom: 0;">
+                <strong>Project Title:</strong>
+              </label>
+              <button type="button" class="btn-insert-template" id="btn-assemble-title-from-pillars">
+                ✨ Auto-Assemble Title from Pillars
+              </button>
+            </div>
+            <div class="field-tip" style="margin-bottom: 8px;">
+              Formula: <code>[Engineered Tool / Mechanism] + in [Biological Chassis / System] + to [Target Outcome / Benchmark] + for [Application]</code>
+            </div>
+            <input type="text" id="proposal-title-input" class="form-input" style="font-size: 1.05rem; font-weight: 700; padding: 12px 14px;" placeholder="e.g. Engineered Salt Bridges in Pseudomonas putida PETase to Elevate Thermostability for Accelerated Plastic Bioremediation">
+          </div>
+
+          <!-- Team Members Roster Table -->
+          <div class="field-block" style="margin-bottom: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <label class="field-label" style="margin-bottom: 0;"><strong>Team Members Roster:</strong></label>
+              <button type="button" class="btn-secondary" id="btn-add-team-member" style="font-size: 0.78rem; padding: 4px 10px; background: #ecfdf5; color: #065f46; border-color: #a7f3d0; font-weight: 700;">+ Add Team Member</button>
+            </div>
+            <div style="overflow-x: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+              <table class="team-roster-table" id="team-roster-table">
+                <thead>
+                  <tr>
+                    <th style="width: 34%;">Student Full Name</th>
+                    <th style="width: 26%;">Student ID</th>
+                    <th style="width: 32%;">University Email</th>
+                    <th style="width: 8%; text-align: center;">✕</th>
+                  </tr>
+                </thead>
+                <tbody id="team-roster-tbody">
+                  <!-- Populated dynamically via studio.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Submission Date -->
+          <div class="field-block">
+            <label class="field-label" for="submission-date-input"><strong>Submission Date:</strong></label>
+            <input type="date" id="submission-date-input" class="form-input" style="max-width: 260px;">
+          </div>
+        </div>
+
+        <!-- 2. Topic Formulation & The 3 Magic Nouns -->
+        <div class="guide-card" style="border-left: 4px solid var(--primary); margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title">🔬 Topic Formulation & The 3 Magic Nouns</div>
+            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Core Setup</span>
+          </div>
+
+          <!-- Plain-English Analogies Callout Grid -->
+          <div class="analogy-callout-grid">
+            <div class="analogy-card">
+              <div class="analogy-icon">🚗</div>
+              <div class="analogy-body">
+                <h4>The Chassis: Your Cellular Vehicle / Factory</h4>
+                <p>Think of the chassis as the car frame or living factory: It is the biological organism (e.g. <em>E. coli</em>, <em>Pichia pastoris</em>, or wheat) or cell-free matrix that houses your engineered tool, supplying nutrients, ATP energy, and ribosomes to produce your molecule.</p>
+              </div>
+            </div>
+
+            <div class="analogy-card benchmark-analogy">
+              <div class="analogy-icon">🏆</div>
+              <div class="analogy-body">
+                <h4>The Benchmark: The Olympic World Record to Beat</h4>
+                <p>A scientific benchmark is the current world record in science—the standard rate, yield, or accuracy that existing technologies achieve today (e.g. <em>"current wild-type enzymes degrade 15% PET in 7 days"</em>). Your proposal must name this current record to prove why your solution is better.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+            <div>
+              <label class="field-label" for="project-model-select"><strong>Select Research Modality:</strong></label>
+              <select id="project-model-select" class="form-select" style="font-size: 0.95rem; font-weight: 600; padding: 8px 12px;">
+                <option value="cellular">1. Cellular / Host Organism Expression (Bacteria, Yeast, Plant, Mammalian)</option>
+                <option value="cell_free">2. In Vitro / Cell-Free Diagnostic / Biosensor (No Living Host)</option>
+                <option value="nanotech">3. Biomaterials / Nanotechnology / Drug Delivery Formulations</option>
+                <option value="environmental">4. Environmental Biotechnology / Bioremediation Matrix / Effluents</option>
+                <option value="computational">5. Computational Biology / In Silico Modeling Pipeline</option>
+                <option value="custom">6. Custom Interdisciplinary Modality (Specify Your Own)</option>
+              </select>
+              <input type="text" id="custom-modality-input" class="form-input" style="display: none; margin-top: 8px;" placeholder="Type your custom research modality...">
+              <div id="model-description-tip" class="field-tip" style="margin-top: 6px; color: #1e3a8a;"></div>
+            </div>
+            <div>
+              <label class="field-label" for="project-keywords-input"><strong>Custom Project Keywords & Focus Disciplines:</strong></label>
+              <input type="text" id="project-keywords-input" class="form-input" placeholder="Type custom keywords separated by commas...">
+              <div id="keywords-tags-container" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;"></div>
+            </div>
+          </div>
+
+          <!-- Curated Presets -->
+          <div class="preset-box">
+            <span class="preset-label">💡 Load a curated proposal model:</span>
+            <select id="search-example-select" class="form-select preset-select">
+              <option value="">-- Choose Example --</option>
+              <option value="0">Cell-Free Diagnostics: Colistin Resistance (mcr-1 / Cas12a in Effluent)</option>
+              <option value="1">Cellular Host: Plastic Depolymerization (PETase in Pseudomonas putida)</option>
+              <option value="2">Nanomaterials: Lipid Nanoparticle siRNA Delivery in Breast Cancer</option>
+              <option value="3">Environmental / Immobilized: Laccase CLEAs for Micropollutant Removal</option>
+              <option value="4">Green Biotech: Wheat Salinity Tolerance (TaHKT1;5 Base Editing)</option>
+            </select>
+          </div>
+
+          <!-- 3 Dynamic Pillars -->
+          <div class="nouns-grid">
+            <div class="noun-card noun-chassis">
+              <div class="noun-header">
+                <span class="noun-icon" id="icon-pillar1">🧫</span>
+                <div>
+                  <div class="noun-title" id="label-pillar1">1. Biological Host / Chassis Organism (Cellular Factory)</div>
+                  <div class="noun-desc" id="desc-pillar1">The living cell line, plant, or matrix providing cellular machinery.</div>
+                </div>
+              </div>
+              <input type="text" id="pillar-chassis" class="form-input noun-input" placeholder="e.g. Pseudomonas putida or Triticum aestivum">
+              <div class="noun-example" id="example-pillar1">Examples: <code>Pseudomonas putida</code>, <code>Pichia pastoris</code>, <code>E. coli</code></div>
+            </div>
+
+            <div class="noun-card noun-tool">
+              <div class="noun-header">
+                <span class="noun-icon" id="icon-pillar2">🛠️</span>
+                <div>
+                  <div class="noun-title" id="label-pillar2">2. Molecular Tool / Engineered Intervention (The Engine)</div>
+                  <div class="noun-desc" id="desc-pillar2">The enzyme, CRISPR guide, synthetic gene circuit, or therapeutic cargo.</div>
+                </div>
+              </div>
+              <input type="text" id="pillar-tool" class="form-input noun-input" placeholder="e.g. Engineered PETase or Cas12a-crRNA reporter">
+              <div class="noun-example" id="example-pillar2">Examples: <code>PETase</code>, <code>Cas12a-crRNA</code>, <code>siRNA</code></div>
+            </div>
+
+            <div class="noun-card noun-target">
+              <div class="noun-header">
+                <span class="noun-icon" id="icon-pillar3">🎯</span>
+                <div>
+                  <div class="noun-title" id="label-pillar3">3. Target Phenomenon & Benchmark (World Record to Beat)</div>
+                  <div class="noun-desc" id="desc-pillar3">The specific disease, pollutant, or baseline rate you will improve.</div>
+                </div>
+              </div>
+              <input type="text" id="pillar-target" class="form-input noun-input" placeholder="e.g. PET plastic degradation rate (beat baseline 15%/wk)">
+              <div class="noun-example" id="example-pillar3">Examples: <code>depolymerization rate</code>, <code>femtomolar LOD</code></div>
+            </div>
+          </div>
+
+          <!-- Boolean Search Query Generator -->
+          <div style="margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+            <label class="field-label"><strong>PubMed / Europe PMC Boolean Search Query:</strong></label>
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+              <div id="boolean-query-output" style="font-family: monospace; font-size: 0.88rem; color: #1e293b; word-break: break-all; margin-bottom: 8px;">
+                ("biotechnology") AND ("enzyme") AND ("yield")
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <a id="link-pubmed" href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.78rem; text-decoration: none;">🔗 Search PubMed ↗</a>
+                <a id="link-europepmc" href="https://europepmc.org/" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.78rem; text-decoration: none;">🔗 Search Europe PMC ↗</a>
+                <button type="button" id="btn-copy-query" class="btn-secondary" style="font-size: 0.78rem;">📋 Copy Query</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Integrated Scientific Paper Decoder & Evidence Miner -->
+        <!-- 2. Integrated Scientific Paper Decoder & Evidence Miner -->
+      <div id="card-paper-decoder" class="guide-card" style="border-top: 4px solid #0284c7; background: #ffffff;">
+        <div class="guide-card-header">
+          <div class="guide-card-title" style="color: #0369a1; display: flex; align-items: center; gap: 8px;">
+            <span>🔬 Scientific Paper Decoder & Simple Explainer ("ELI-Undergrad")</span>
+          </div>
+          <span class="badge-box" style="background: #e0f2fe; color: #0369a1;">Literature Miner</span>
+        </div>
+
+        <div class="subtitle-guide-box" style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #075985; margin-bottom: 14px; line-height: 1.5;">
+          <div style="margin-bottom: 4px;"><strong>📌 What is this?</strong> An AI paper explainer that turns complicated research papers into simple English and extracts the numbers and test conditions for you.</div>
+          <div><strong>✍️ How to write this:</strong> Paste a paper's DOI or abstract below (or click a quick preset). Look at what the authors achieved and what unsolved problems they admitted—that's where your project starts!</div>
+        </div>
+
+        <p style="font-size: 0.88rem; color: #475569; margin-bottom: 14px;">
+          Paste a DOI or abstract to translate dense papers into intuitive plain English, decode biotech jargon, and extract quantitative parameters (melting temperature Tm, turnover number kcat, LOD, controls, gaps) with 1-click transfer into your proposal!
+        </p>
+
+        <!-- Benchmark Presets -->
+        <div style="margin-bottom: 14px;">
+          <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 6px; text-transform: uppercase;">
+            ⚡ Quick Benchmark Presets (Click to test instantly):
+          </div>
+          <div class="paper-presets-bar">
+            <button class="btn-preset" data-preset="petase">🧪 Nature 2020: PETase Plastic Recycling</button>
+            <button class="btn-preset" data-preset="crispr_dx">🧬 Science 2018: CRISPR-Cas12a Diagnostics</button>
+            <button class="btn-preset" data-preset="drought_wheat">🌾 Nat Biotech 2012: Salt-Tolerant Wheat</button>
+          </div>
+        </div>
+
+        <!-- 1-Click DOI / PMID Input -->
+        <div style="display: flex; gap: 8px; margin-bottom: 14px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; align-items: center;">
+          <input type="text" id="paper-id-input" class="form-input" style="flex: 1; font-size: 0.88rem;" placeholder="Enter DOI (e.g. 10.1038/s41586-020-2149-4 or doi: 10.xxx) or PubMed ID...">
+          <button id="btn-fetch-paper-meta" class="btn-secondary" style="font-size: 0.82rem; white-space: nowrap;">
+            ⬇ Fetch Abstract
+          </button>
+        </div>
+
+        <!-- Abstract/Textarea Input -->
+        <div class="field-block" style="margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label class="field-label" style="margin-bottom: 0;"><strong>Paper Title & Abstract:</strong></label>
+            <span id="paper-word-count" style="font-size: 0.75rem; color: #64748b;">0 words</span>
+          </div>
+          <div id="paper-fetch-notice" style="display: none; margin-bottom: 8px; font-size: 0.82rem; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; padding: 8px 12px; border-radius: 6px; line-height: 1.4;"></div>
+          <input type="text" id="paper-title-input" class="form-input" style="margin-bottom: 6px; font-size: 0.85rem;" placeholder="Paper Title (optional if pasting abstract)...">
+          <textarea id="paper-text-input" class="form-textarea" style="min-height: 100px; font-size: 0.85rem;" placeholder="Paste paper abstract or methods excerpt here..."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="font-size: 0.78rem; color: #64748b;">
+            💡 Extracts quantitative metrics (melting temperature Tm, turnover number kcat, LOD), positive/negative controls, stated gaps, and decodes jargon.
+          </div>
+          <button id="btn-run-paper-decode" class="btn-primary" style="background: #0284c7; border-color: #0284c7;">
+            🔍 Decode & Extract Parameters
+          </button>
+        </div>
+
+        <!-- Decoded Analysis Results -->
+        <div id="paper-results-container" style="display: none; margin-top: 18px; border-top: 2px solid #e2e8f0; padding-top: 14px;">
+          <!-- Citation Bar -->
+          <div style="background: #f1f5f9; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 0.82rem; color: #1e293b; font-weight: 600;" id="paper-res-citation-preview">
+              Tournier, V. et al. (2020). Nature.
+            </div>
+            <button id="btn-copy-citation" class="btn-transfer-chip" style="background: #e2e8f0; color: #334155;">
+              📋 Copy APA
+            </button>
+          </div>
+
+          <!-- Navigation Tabs -->
+          <div class="decoder-nav-tabs">
+            <button class="decoder-tab-btn active" data-tab="eli">📖 Simple English & Jargon</button>
+            <button class="decoder-tab-btn" data-tab="matrix">📊 Extracted Proposal Evidence</button>
+            <button class="decoder-tab-btn" data-tab="socratic">✍️ Socratic Synthesis Workshop</button>
+            <button class="decoder-tab-btn" data-tab="landscape">🔬 Research Landscape & Gap</button>
+          </div>
+
+          <!-- Tab 1: Simple English Narrative & Jargon Buster -->
+          <div id="tab-content-eli" class="decoder-tab-content active">
+            <!-- ELI-Undergrad Analogy Box -->
+            <div class="eli-box">
+              <div class="eli-title" id="res-eli-theme">💡 How to Understand This in Simple Words:</div>
+              <p style="font-size: 0.88rem; color: #14532d; line-height: 1.5; margin: 0 0 8px 0;" id="res-eli-analogy"></p>
+            </div>
+
+            <!-- Plain-English 4-Pillars Breakdown -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                <span>🌟 The Big Picture (Explained Simply):</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="background: white; border-left: 4px solid #ef4444; padding: 8px 12px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                  <strong style="color: #b91c1c; font-size: 0.82rem;">🎯 1. The Real-World Problem:</strong>
+                  <p style="font-size: 0.85rem; color: #1e293b; margin: 2px 0 0 0;" id="res-eli-problem"></p>
+                </div>
+                <div style="background: white; border-left: 4px solid #3b82f6; padding: 8px 12px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                  <strong style="color: #1d4ed8; font-size: 0.82rem;">🧪 2. What the Scientists Did:</strong>
+                  <p style="font-size: 0.85rem; color: #1e293b; margin: 2px 0 0 0;" id="res-eli-solution"></p>
+                </div>
+                <div style="background: white; border-left: 4px solid #10b981; padding: 8px 12px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                  <strong style="color: #047857; font-size: 0.82rem;">🏆 3. What the Numbers Proved:</strong>
+                  <p style="font-size: 0.85rem; color: #1e293b; margin: 2px 0 0 0;" id="res-eli-takeaway"></p>
+                </div>
+                <div style="background: white; border-left: 4px solid #f59e0b; padding: 8px 12px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                  <strong style="color: #b45309; font-size: 0.82rem;">⚠️ 4. What is Still Unsolved (Your Grant Gap!):</strong>
+                  <p style="font-size: 0.85rem; color: #1e293b; margin: 2px 0 0 0;" id="res-eli-limitation"></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Executive 3-Sentence Summary (Academic) -->
+            <details style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;">
+              <summary style="font-size: 0.8rem; font-weight: 800; color: #1e40af; cursor: pointer;">
+                📄 View Raw Academic Text from Abstract
+              </summary>
+              <div style="margin-top: 8px; font-size: 0.82rem; color: #1e3a8a; line-height: 1.4;">
+                <p style="margin: 0 0 4px 0;"><strong>Problem:</strong> <span id="res-exec-problem"></span></p>
+                <p style="margin: 0 0 4px 0;"><strong>Intervention:</strong> <span id="res-exec-solution"></span></p>
+                <p style="margin: 0 0 4px 0;"><strong>Key Takeaway:</strong> <span id="res-exec-finding"></span></p>
+                <p style="margin: 0;"><strong>Limitation:</strong> <span id="res-exec-limitation"></span></p>
+              </div>
+            </details>
+
+            <!-- Jargon Buster Grid -->
+            <div>
+              <div style="font-size: 0.85rem; font-weight: 800; color: #0f172a; margin-bottom: 6px;">
+                🧩 Biotech Jargon Buster (Found in this paper):
+              </div>
+              <div id="res-jargon-container" class="jargon-grid"></div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Extracted Proposal Evidence Matrix -->
+          <div id="tab-content-matrix" class="decoder-tab-content">
+            <div style="font-size: 0.82rem; color: #475569; margin-bottom: 10px;">
+              These high-yield parameters were automatically extracted. Click the transfer chips to copy them directly into your proposal!
+            </div>
+
+            <div class="param-extract-grid">
+              <!-- Parameter: Chassis -->
+              <div class="param-card">
+                <div class="param-card-header">
+                  <span class="param-title">🧫 Chassis / System / Host</span>
+                  <button class="btn-transfer-chip" id="transfer-chassis-btn">📥 Step 1 Chassis</button>
+                </div>
+                <div class="param-value" id="res-param-chassis">None detected</div>
+              </div>
+
+              <!-- Parameter: Molecular Tool -->
+              <div class="param-card">
+                <div class="param-card-header">
+                  <span class="param-title">🧬 Tool / Intervention</span>
+                  <button class="btn-transfer-chip" id="transfer-tool-btn">📥 Step 1 Tool</button>
+                </div>
+                <div class="param-value" id="res-param-tool">None detected</div>
+              </div>
+
+              <!-- Parameter: Quantitative Benchmarks -->
+              <div class="param-card">
+                <div class="param-card-header">
+                  <span class="param-title">📈 Benchmark Yield / Metrics</span>
+                  <div style="display: flex; gap: 4px;">
+                    <button class="btn-transfer-chip" id="transfer-metric-btn">📥 Step 2 Baseline</button>
+                    <button class="btn-transfer-chip" id="transfer-metric-funnel-btn">📥 Step 3 Tier 2</button>
+                  </div>
+                </div>
+                <div class="param-value" id="res-param-metrics">None detected</div>
+              </div>
+
+              <!-- Parameter: Experimental Strategy & Controls -->
+              <div class="param-card">
+                <div class="param-card-header">
+                  <span class="param-title">🛡️ Experimental Strategy & Controls</span>
+                  <button class="btn-transfer-chip" id="transfer-controls-btn">📥 Step 2 & 4 Controls</button>
+                </div>
+                <div class="param-value" id="res-param-controls">None detected</div>
+              </div>
+
+              <!-- Parameter: Global Burden Statistic -->
+              <div class="param-card">
+                <div class="param-card-header">
+                  <span class="param-title">🟡 Global Burden / Scale</span>
+                  <button class="btn-transfer-chip" id="transfer-burden-btn">📥 Step 2 Burden</button>
+                </div>
+                <div class="param-value" id="res-param-burden">None detected</div>
+              </div>
+
+              <!-- Parameter: Key Engineered Innovation & Molecular Mechanism -->
+              <div class="param-card">
+                <div class="param-card-header">
+                  <span class="param-title">🧬 Key Innovation & Mechanism</span>
+                  <button class="btn-transfer-chip" id="transfer-milestone-btn">📥 Step 2 Innovation</button>
+                </div>
+                <div class="param-value" id="res-param-milestone">None detected</div>
+              </div>
+
+              <!-- Parameter: Key Measured Findings & Research Horizon -->
+              <div class="param-card">
+                <div class="param-card-header">
+                  <span class="param-title">🏆 Key Findings & Research Horizon</span>
+                  <button class="btn-transfer-chip" id="transfer-findings-btn">📥 Step 2 Findings</button>
+                </div>
+                <div class="param-value" id="res-param-findings">None detected</div>
+              </div>
+
+              <!-- Parameter: Stated Knowledge Gap -->
+              <div class="param-card" style="grid-column: 1 / -1; border-left: 4px solid #f59e0b;">
+                <div class="param-card-header">
+                  <span class="param-title" style="color: #b45309;">⚠️ Stated Limitation / Knowledge Gap (Your Jump-Off Point)</span>
+                  <div style="display: flex; gap: 6px;">
+                    <button class="btn-transfer-chip" id="transfer-gap-btn">📥 Step 3 Gap (Tier 3)</button>
+                    <button class="btn-transfer-chip" id="transfer-competitor-btn" style="background: #fef3c7; color: #b45309; border-color: #fde68a;">📥 Import into Research Landscape</button>
+                  </div>
+                </div>
+                <div class="param-value" id="res-param-gap">None detected</div>
+              </div>
+            </div>
+
+            <!-- Proposal Mapping Guidance -->
+            <div style="margin-top: 16px; background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 12px;">
+              <div style="font-size: 0.82rem; font-weight: 800; color: #6b21a8; margin-bottom: 6px;">
+                🗺️ Where to Plug This Evidence Into Your Proposal:
+              </div>
+              <div id="res-proposal-recs-container" style="display: flex; flex-direction: column; gap: 8px;"></div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Socratic Paraphrase & Synthesis Workshop -->
+          <div id="tab-content-socratic" class="decoder-tab-content">
+            <div style="background: #fffbeb; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+              <div style="font-weight: 800; color: #b45309; font-size: 0.88rem; margin-bottom: 4px;">
+                🛡️ Academic Integrity: Never Copy-Paste the Summary
+              </div>
+              <p style="font-size: 0.82rem; color: #92400e; margin: 0; line-height: 1.4;">
+                Synthesize the authors' work in your own words using the <strong>RHEV Protocol</strong>: <em>Read ➔ Hide ➔ Explain from memory ➔ Verify</em>.
+              </p>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: #334155; margin-bottom: 6px;">
+                Suggested Synthesis Template:
+              </div>
+              <div id="res-rhev-prompt-box" style="font-family: monospace; font-size: 0.82rem; color: #1e293b; background: white; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; line-height: 1.5; white-space: pre-wrap;"></div>
+            </div>
+
+            <div class="field-block">
+              <label class="field-label"><strong>Your Authentic Paraphrase Draft:</strong></label>
+              <textarea id="paper-socratic-draft-input" class="form-textarea" style="min-height: 80px;" placeholder="Write your sentence synthesizing this paper's finding and limitation in your own academic voice..."></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button id="btn-transfer-to-rhev-lab" class="btn-secondary" style="font-size: 0.82rem;">
+                🔬 Audit in RHEV Paraphrase Gym (Step 2)
+              </button>
+              <button id="btn-append-to-references" class="btn-primary" style="background: #2563eb; font-size: 0.82rem;">
+                📚 Append to Step 6 References
+              </button>
+            </div>
+          </div>
+
+          <!-- Tab 4: Research Landscape & Comparative Evidence Story -->
+          <div id="tab-content-landscape" class="decoder-tab-content">
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+              <div style="font-weight: 800; color: #166534; font-size: 0.88rem; margin-bottom: 4px;">
+                🔬 Three-Stage Evidence Story: Moving from Paper to Proposal
+              </div>
+              <p style="font-size: 0.82rem; color: #14532d; margin: 0; line-height: 1.4;">
+                Transform published findings into an evidence-driven research proposal. Understand the baseline record, pinpoint the unaddressed bottleneck, and formulate your calibrated contribution.
+              </p>
+            </div>
+
+            <!-- Literature Position Map -->
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 0.82rem; font-weight: 800; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                <span>🗺️ Literature Position Progression:</span>
+              </div>
+              <div class="lit-position-map" id="res-lit-position-map">
+                <div class="lit-map-node">
+                  <div class="lit-map-node-step">Stage 1</div>
+                  <div class="lit-map-node-title">🏛️ Established Standard</div>
+                  <div class="lit-map-node-desc" id="lit-map-established">Wild-type or historical standard</div>
+                </div>
+                <div class="lit-map-node">
+                  <div class="lit-map-node-step">Stage 2</div>
+                  <div class="lit-map-node-title">⚠️ Knowledge Gap</div>
+                  <div class="lit-map-node-desc" id="lit-map-gap">Operational / mechanistic bottleneck</div>
+                </div>
+                <div class="lit-map-node node-active">
+                  <div class="lit-map-node-step">Stage 3 (This Paper)</div>
+                  <div class="lit-map-node-title">🧬 Current Study</div>
+                  <div class="lit-map-node-desc" id="lit-map-paper">Published benchmark & finding</div>
+                </div>
+                <div class="lit-map-node">
+                  <div class="lit-map-node-step">Stage 4 (Your Project)</div>
+                  <div class="lit-map-node-title">🎯 Proposed Study</div>
+                  <div class="lit-map-node-desc" id="lit-map-proposed">Target milestone beyond benchmark</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Three-Stage Evidence Story Cards -->
+            <div class="landscape-story-container">
+              <!-- Stage 1 -->
+              <div class="landscape-stage-card stage-art">
+                <div class="landscape-stage-header">
+                  <div class="landscape-stage-title" style="color: #0369a1;">
+                    <span>🏛️ 1. What exists? (Current State of the Art)</span>
+                  </div>
+                  <span class="badge-evidence badge-published">📘 Published evidence</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; font-size: 0.82rem;">
+                  <div>
+                    <strong style="color: #0369a1;">Demonstrated Approach / Method:</strong>
+                    <div id="res-land-art-approach" style="color: #1e293b; margin-top: 2px;">Loading...</div>
+                  </div>
+                  <div>
+                    <strong style="color: #0369a1;">Quantitative Baseline Benchmark:</strong>
+                    <div id="res-land-art-benchmark" style="color: #1e293b; margin-top: 2px;">Loading...</div>
+                  </div>
+                </div>
+                <div style="margin-top: 8px; font-size: 0.78rem; color: #475569;">
+                  <strong>Published Source:</strong> <span id="res-land-art-evidence"></span>
+                </div>
+              </div>
+
+              <!-- Stage 2 -->
+              <div class="landscape-stage-card stage-gap">
+                <div class="landscape-stage-header">
+                  <div class="landscape-stage-title" style="color: #b45309;">
+                    <span>⚠️ 2. What is still limiting the field? (The Unresolved Gap)</span>
+                  </div>
+                  <span class="badge-evidence badge-published">📘 Literature limitation</span>
+                </div>
+                <div style="font-size: 0.83rem; color: #1e293b; line-height: 1.45;" id="res-land-gap-statement">
+                  Loading gap...
+                </div>
+                <div style="margin-top: 8px; font-size: 0.78rem; color: #78350f;">
+                  <strong>Why Current Methods Fail:</strong> Stated constraint or thermal/metabolic bottleneck requiring alternative engineering or mechanistic solution.
+                </div>
+              </div>
+
+              <!-- Stage 3 -->
+              <div class="landscape-stage-card stage-opp">
+                <div class="landscape-stage-header">
+                  <div class="landscape-stage-title" style="color: #166534;">
+                    <span>🎯 3. Where could a new study contribute? (Proposed Research Opportunity)</span>
+                  </div>
+                  <span class="badge-evidence badge-hypothesis">🧪 Research Opportunity</span>
+                </div>
+                <div style="font-size: 0.83rem; color: #1e293b; line-height: 1.45; margin-bottom: 8px;" id="res-land-opp-statement">
+                  Loading opportunity...
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; font-size: 0.8rem; background: #ffffff; padding: 10px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                  <div>
+                    <strong style="color: #166534;">Recommended Testing Strategy:</strong>
+                    <div id="res-land-opp-strategy" style="color: #334155; margin-top: 2px;">Loading...</div>
+                  </div>
+                  <div>
+                    <strong style="color: #166534;">Target Calibrated Improvement:</strong>
+                    <div id="res-land-opp-milestone" style="color: #334155; margin-top: 2px;">Loading...</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- From Paper -> Proposal Synthesizer (6 Structured Points) -->
+            <div style="margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+              <div style="font-size: 0.86rem; font-weight: 800; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                <span>🧠 From Paper → Proposal Synthesizer (6-Point Blueprint):</span>
+              </div>
+              <p style="font-size: 0.8rem; color: #64748b; margin: 0 0 10px 0;">
+                Translate the paper's findings into your proposal logic chain across these six structured evidence points:
+              </p>
+
+              <div class="synth-points-grid">
+                <!-- 1. Established Knowledge -->
+                <div class="synth-point-card" style="border-left: 3px solid #3b82f6;">
+                  <div class="synth-point-header">
+                    <span>📘 1. Established Scientific Knowledge</span>
+                  </div>
+                  <div class="synth-point-text" id="synth-point-established">Loading...</div>
+                </div>
+
+                <!-- 2. Current Benchmark -->
+                <div class="synth-point-card" style="border-left: 3px solid #0284c7;">
+                  <div class="synth-point-header">
+                    <span>📊 2. Current Quantitative Benchmark</span>
+                  </div>
+                  <div class="synth-point-text" id="synth-point-benchmark">Loading...</div>
+                </div>
+
+                <!-- 3. Limitation -->
+                <div class="synth-point-card" style="border-left: 3px solid #f59e0b;">
+                  <div class="synth-point-header">
+                    <span>⚠️ 3. Unresolved Literature Limitation</span>
+                  </div>
+                  <div class="synth-point-text" id="synth-point-limitation">Loading...</div>
+                </div>
+
+                <!-- 4. Research Opportunity -->
+                <div class="synth-point-card" style="border-left: 3px solid #10b981;">
+                  <div class="synth-point-header">
+                    <span>💡 4. Proposed Research Opportunity</span>
+                  </div>
+                  <div class="synth-point-text" id="synth-point-opportunity">Loading...</div>
+                </div>
+
+                <!-- 5. Proposed Contribution -->
+                <div class="synth-point-card" style="border-left: 3px solid #8b5cf6;">
+                  <div class="synth-point-header">
+                    <span>🧬 5. Proposed Rational Contribution</span>
+                  </div>
+                  <div class="synth-point-text" id="synth-point-contribution">Loading...</div>
+                </div>
+
+                <!-- 6. Required Validation Checklist -->
+                <div class="synth-point-card" style="border-left: 3px solid #059669; grid-column: 1 / -1;">
+                  <div class="synth-point-header" style="justify-content: space-between;">
+                    <span>🛡️ 6. Required Validation Checklist (Scientific Rigor)</span>
+                    <span class="badge-evidence badge-hypothesis">Controls & Evidence</span>
+                  </div>
+                  <div id="synth-validation-checklist" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; font-size: 0.8rem; margin-top: 6px;">
+                    <!-- Rendered by JS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      
+
+<!-- 3. The 6-Parameter Evidence Matrix -->
+      <!-- 3. The 6-Parameter Evidence Matrix -->
+      <div class="guide-card" id="card-evidence-matrix">
+        <div class="guide-card-header">
+          <div class="guide-card-title">3. The 6-Parameter Scientific Evidence Matrix</div>
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <button id="btn-toggle-matrix-paper-tools" type="button" class="btn-secondary" style="font-size: 0.8rem; background: #eff6ff; border-color: #93c5fd; color: #1e40af;">
+              📄 Put / Decode Paper
+            </button>
+            <button id="btn-autofill-matrix" type="button" class="btn-secondary" style="font-size: 0.8rem; background: #f0fdf4; border-color: #86efac; color: #166534;">
+              💡 Auto-Fill from Decoded Paper
+            </button>
+          </div>
+        </div>
+
+        <div class="subtitle-guide-box" style="background: #f0fdf4; border-left: 3px solid #059669; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 14px; line-height: 1.5;">
+          <div style="margin-bottom: 4px;"><strong>📌 What is this?</strong> Real scientific numbers and facts from published research papers that prove your project is needed and realistic.</div>
+          <div><strong>✍️ How to write this:</strong> Enter a paper DOI or abstract below (or click "Auto-Fill from Decoded Paper"). The engine will automatically summarize the paper, explain the biology in plain English, and extract the 6 parameters with individual explanations!</div>
+        </div>
+
+        <!-- Section 3 Dedicated Quick Paper Input & Presets Bar -->
+        <div class="matrix-paper-tools-bar" id="matrix-paper-tools-bar">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">
+              📄 Put a Paper to Analyze & Auto-Fill:
+            </span>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <span style="font-size: 0.74rem; color: #64748b; align-self: center;">Quick Presets:</span>
+              <button type="button" class="btn-preset btn-matrix-preset" data-preset="petase" style="font-size: 0.75rem; padding: 2px 8px;">🧪 PETase (Nature 2020)</button>
+              <button type="button" class="btn-preset btn-matrix-preset" data-preset="crispr_dx" style="font-size: 0.75rem; padding: 2px 8px;">🧬 Cas12a (Science 2018)</button>
+              <button type="button" class="btn-preset btn-matrix-preset" data-preset="drought_wheat" style="font-size: 0.75rem; padding: 2px 8px;">🌾 Wheat (Nat Biotech)</button>
+            </div>
+          </div>
+          <div class="matrix-paper-input-row">
+            <input type="text" id="matrix-quick-paper-input" class="form-input" style="flex: 1; min-width: 240px; font-size: 0.84rem;" placeholder="Paste DOI (e.g. 10.1038/s41586-020-2149-4), PubMed ID, or paper abstract...">
+            <button type="button" id="btn-matrix-decode-paper" class="btn-primary" style="background: #059669; border-color: #059669; font-size: 0.82rem; white-space: nowrap;">
+              🔍 Decode Paper & Explain Everything
+            </button>
+          </div>
+        </div>
+
+        <!-- Deep Paper Explanation & Summary Panel (appears when a paper is decoded/autofilled) -->
+        <div id="matrix-paper-explainer-panel" class="matrix-paper-explainer-panel" style="display: none;">
+          <div class="matrix-explainer-header">
+            <div class="matrix-explainer-title-group">
+              <span class="matrix-explainer-badge-tag">🔬 Decoded Literature Intelligence & Summary</span>
+              <div class="matrix-explainer-paper-title" id="matrix-exp-title">Paper Title</div>
+              <div class="matrix-explainer-paper-meta">
+                <span class="matrix-explainer-meta-pill" id="matrix-exp-authors">Authors</span>
+                <span class="matrix-explainer-meta-pill" id="matrix-exp-journal">Journal</span>
+                <span class="matrix-explainer-meta-pill" id="matrix-exp-year">Year</span>
+                <span class="matrix-explainer-meta-pill" id="matrix-exp-recency" style="background: #dcfce7; color: #166534; font-weight: 700;">Recency Status</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" id="btn-toggle-matrix-exp-details" class="btn-secondary" style="font-size: 0.75rem; padding: 4px 10px;">
+                👁️ Toggle Summary View
+              </button>
+            </div>
+          </div>
+
+          <!-- Intuitive Everyday Analogy -->
+          <div class="matrix-analogy-callout">
+            <div class="matrix-analogy-title">
+              <span>💡 How to Understand This Paper Simply:</span>
+              <span id="matrix-exp-theme" style="font-weight: 600; font-size: 0.75rem; color: #047857;">Theme</span>
+            </div>
+            <div class="matrix-analogy-text" id="matrix-exp-analogy">
+              Analogy loading...
+            </div>
+          </div>
+
+          <!-- 4-Part Plain-English Story Breakdown -->
+          <div class="matrix-summary-story-grid" id="matrix-exp-story-grid">
+            <div class="matrix-story-card story-problem">
+              <div class="matrix-story-header">🎯 1. The Real-World Crisis</div>
+              <div class="matrix-story-body" id="matrix-exp-problem">Problem description...</div>
+            </div>
+            <div class="matrix-story-card story-solution">
+              <div class="matrix-story-header">🧪 2. What Scientists Engineered</div>
+              <div class="matrix-story-body" id="matrix-exp-solution">Intervention description...</div>
+            </div>
+            <div class="matrix-story-card story-finding">
+              <div class="matrix-story-header">📊 3. Exact Numbers & Benchmark</div>
+              <div class="matrix-story-body" id="matrix-exp-finding">Finding description...</div>
+            </div>
+            <div class="matrix-story-card story-gap">
+              <div class="matrix-story-header">⚠️ 4. Unsolved Flaw (Your Grant Gap!)</div>
+              <div class="matrix-story-body" id="matrix-exp-gap">Bottleneck description...</div>
+            </div>
+          </div>
+
+          <!-- Key Extracted Benchmark Chips -->
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-top: 1px dashed #bbf7d0; padding-top: 10px;">
+            <div class="matrix-metrics-chips-bar" id="matrix-exp-metrics-bar">
+              <strong style="color: #166534; font-size: 0.78rem;">Extracted Numbers:</strong>
+              <span id="matrix-exp-metrics-chips"></span>
+            </div>
+            <div style="font-size: 0.76rem; color: #166534; font-weight: 600;">
+              ✅ Transferred into all 6 Parameters below with individual explanations
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Pathway Ribbon -->
+        <div class="pathway-ribbon">
+          <div style="display: flex; align-items: center; gap: 6px; color: #166534;">
+            <span>🛤️</span> <span><strong>Evidence Flow Pathway:</strong></span>
+          </div>
+          <div class="pathway-chain">
+            <span class="pathway-node node-yellow">1. Problem</span>
+            <span class="pathway-arrow">➔</span>
+            <span class="pathway-node node-blue">2. Benchmark</span>
+            <span class="pathway-arrow">➔</span>
+            <span class="pathway-node node-green">3. Gap</span>
+            <span class="pathway-arrow">➔</span>
+            <span class="pathway-node node-purple">4. Strategy & Controls</span>
+            <span class="pathway-arrow">➔</span>
+            <span class="pathway-node node-red">5. Innovation</span>
+            <span class="pathway-arrow">➔</span>
+            <span class="pathway-node node-slate">6. Evidence & Milestone</span>
+          </div>
+        </div>
+
+        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 16px;">
+          Reviewers require real empirical benchmarks rather than vague claims. Fill in the 6 parameters below, grouped across the three core scientific questions of your proposal:
+        </p>
+
+        <!-- Question Group A: Why is the research needed? -->
+        <div class="question-group-block" style="border-top: 3px solid #0284c7; background: #fbfcfe;">
+          <div class="question-group-header">
+            <div class="question-group-title" style="color: #0369a1;">
+              <span>🧩 Question A: Why is the research needed?</span>
+            </div>
+            <span class="question-group-badge" style="background: #e0f2fe; color: #0369a1;">Need & Literature Context (Params 1–3)</span>
+          </div>
+          <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 12px;">
+            Establish the global scale, document the best published benchmark, and pinpoint the exact unresolved biophysical bottleneck.
+          </div>
+
+          <div class="matrix-grid-simple">
+            <!-- Parameter 1 -->
+            <div class="sticky-card sticky-yellow">
+              <div class="sticky-header">
+                <span class="sticky-tag">🟡 PARAMETER 1</span>
+                <strong>Epidemiological / Global Burden Statistic</strong>
+              </div>
+              <div class="item-guide-box">
+                <div class="guide-line"><strong>📌 What is this?</strong> A real published number showing how big the crisis or problem is in the world.</div>
+                <div class="guide-line"><strong>✍️ How to write it:</strong> Search your paper for words like <em>million</em>, <em>billion</em>, <em>%</em>, or <em>cases/year</em>. Give the exact number and cite the source.</div>
+                <div class="guide-eg"><strong>💡 Example:</strong> Over 350 million metric tons of plastic waste are generated annually, with under 9% recycled [Geyer et al., 2017].</div>
+              </div>
+              <div class="parameter-insight-box" id="matrix-insight-yellow">
+                <div class="insight-title">💡 Paper Explanation:</div>
+                <div class="insight-body" id="matrix-insight-yellow-body">
+                  Put a paper above or click "Auto-Fill" to see an in-depth explanation of this parameter from your paper.
+                </div>
+              </div>
+              <textarea id="matrix-yellow" class="sticky-textarea" placeholder="e.g. Over 350 million metric tons of plastic waste are generated annually, with under 9% recycled [Geyer et al., 2017]."></textarea>
+            </div>
+
+            <!-- Parameter 2 -->
+            <div class="sticky-card sticky-blue">
+              <div class="sticky-header">
+                <span class="sticky-tag">🔵 PARAMETER 2</span>
+                <strong>Current Scientific Benchmark & Baseline Rate</strong>
+              </div>
+              <div class="item-guide-box">
+                <div class="guide-line"><strong>📌 What is this?</strong> The best current method used today and the exact baseline number it achieves.</div>
+                <div class="guide-line"><strong>✍️ How to write it:</strong> Name the standard enzyme, tool, or protocol and state its measured speed, yield, or sensitivity.</div>
+                <div class="guide-eg"><strong>💡 Example:</strong> Current recycling uses wild-type PETase, yielding a baseline degradation rate of 0.13 mg/day/cm² [Yoshida et al., 2016].</div>
+              </div>
+              <div class="parameter-insight-box" id="matrix-insight-blue">
+                <div class="insight-title">💡 Paper Explanation:</div>
+                <div class="insight-body" id="matrix-insight-blue-body">
+                  Put a paper above or click "Auto-Fill" to see how this baseline rate proves the current scientific record.
+                </div>
+              </div>
+              <textarea id="matrix-blue" class="sticky-textarea" placeholder="e.g. Current recycling uses wild-type PETase, yielding a baseline degradation rate of 0.13 mg/day/cm² [Yoshida et al., 2016]."></textarea>
+            </div>
+
+            <!-- Parameter 3 -->
+            <div class="sticky-card sticky-green">
+              <div class="sticky-header">
+                <span class="sticky-tag">🟢 PARAMETER 3</span>
+                <strong>Mechanistic Knowledge Gap / Flaw</strong>
+              </div>
+              <div class="item-guide-box">
+                <div class="guide-line"><strong>📌 What is this?</strong> The biological or physical flaw that causes current methods to fail or limits their use.</div>
+                <div class="guide-line"><strong>✍️ How to write it:</strong> Explain what goes wrong (e.g. protein unfolds in heat, probe binds off-target, or cells die).</div>
+                <div class="guide-eg"><strong>💡 Example:</strong> Industrial use is blocked because the enzyme denatures and loses activity above 48°C within 2 hours [Austin et al., 2018].</div>
+              </div>
+              <div class="parameter-insight-box" id="matrix-insight-green">
+                <div class="insight-title">💡 Paper Explanation:</div>
+                <div class="insight-body" id="matrix-insight-green-body">
+                  Put a paper above or click "Auto-Fill" to see the biological reason for this flaw.
+                </div>
+              </div>
+              <textarea id="matrix-green" class="sticky-textarea" placeholder="e.g. Industrial deployment is constrained by thermal active-site collapse (Tm < 48°C) within 2 hours [Austin et al., 2018]."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Group B: What is the proposed scientific solution? -->
+        <div class="question-group-block" style="border-top: 3px solid #8b5cf6; background: #fdfcff;">
+          <div class="question-group-header">
+            <div class="question-group-title" style="color: #6d28d9;">
+              <span>🧬 Question B: What is the proposed scientific solution?</span>
+            </div>
+            <span class="question-group-badge" style="background: #ede9fe; color: #6d28d9;">Engineering & Controls (Params 4–5)</span>
+          </div>
+          <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 12px;">
+            Define the rigorous experimental system and controls, and articulate your specific molecular engineering mechanism.
+          </div>
+
+          <div class="matrix-grid-simple" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <!-- Parameter 4 -->
+            <div class="sticky-card" style="background-color: #fdf4ff; border-color: #f0abfc;">
+              <div class="sticky-header" style="color: #86198f;">
+                <span class="sticky-tag" style="background: #fae8ff;">🟣 PARAMETER 4</span>
+                <strong>Experimental Strategy, Model System & Verification Controls</strong>
+              </div>
+              <div class="item-guide-box">
+                <div class="guide-line"><strong>📌 What is this?</strong> The biological model system (chassis/cell line/matrix), analytical assay technique (HPLC, qPCR, etc.), and control benchmarks (positive reference & negative vehicle) that prove scientific validity.</div>
+                <div class="guide-line"><strong>✍️ How to write it:</strong> Name the host or matrix, the primary assay method, and explicitly state both a positive benchmark control and a negative vehicle/blank control.</div>
+                <div class="guide-eg"><strong>💡 Example:</strong> Expressed in Pichia pastoris; catalytic turnover measured via reverse-phase HPLC at 25°C; benchmarked against wild-type IsPETase (positive control) and empty vector supernatant (negative control).</div>
+              </div>
+              <div class="parameter-insight-box" id="matrix-insight-purple">
+                <div class="insight-title">💡 Paper Explanation:</div>
+                <div class="insight-body" id="matrix-insight-purple-body">
+                  Put a paper above or click "Auto-Fill" to see the experimental model, assays, and controls used.
+                </div>
+              </div>
+              <textarea id="matrix-purple" class="sticky-textarea" placeholder="e.g. Expressed in Pichia pastoris; activity quantified by reverse-phase HPLC at 25°C; benchmarked against wild-type reference (positive control) and vehicle buffer blank (negative control)."></textarea>
+            </div>
+
+            <!-- Parameter 5 -->
+            <div class="sticky-card sticky-red">
+              <div class="sticky-header">
+                <span class="sticky-tag">🔴 PARAMETER 5</span>
+                <strong>Core Engineered Innovation & Molecular Mechanism</strong>
+              </div>
+              <div class="item-guide-box">
+                <div class="guide-line"><strong>📌 What is this?</strong> The novel molecular tool, engineered construct, rational mutation, or biochemical mechanism designed to overcome the Parameter 3 bottleneck.</div>
+                <div class="guide-line"><strong>✍️ How to write it:</strong> Name the specific engineering intervention (e.g. active-site mutations, fusion scaffolds, synthetic circuits) and describe its biological mechanism of action.</div>
+                <div class="guide-eg"><strong>💡 Example:</strong> Narrowing the active-site binding cleft via dual mutation (W159H/S238F) to stabilize polymer contact and accelerate ester bond cleavage.</div>
+              </div>
+              <div class="parameter-insight-box" id="matrix-insight-red">
+                <div class="insight-title">💡 Paper Explanation:</div>
+                <div class="insight-body" id="matrix-insight-red-body">
+                  Put a paper above or click "Auto-Fill" to see the paper's key engineered innovation and mechanism.
+                </div>
+              </div>
+              <textarea id="matrix-red" class="sticky-textarea" placeholder="e.g. Rational active-site cleft narrowing (W159H/S238F) to stabilize polymer substrate binding and accelerate catalytic turnover."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Group C: What would constitute success? -->
+        <div class="question-group-block" style="border-top: 3px solid #10b981; background: #fbfdfc;">
+          <div class="question-group-header">
+            <div class="question-group-title" style="color: #047857;">
+              <span>🎯 Question C: What would constitute success?</span>
+            </div>
+            <span class="question-group-badge" style="background: #dcfce7; color: #166534;">Evidence Proof & Target Milestone (Param 6)</span>
+          </div>
+          <div style="font-size: 0.78rem; color: #64748b; margin-bottom: 12px;">
+            Pair verified published literature findings with your calibrated numerical milestone to surpass the baseline rate.
+          </div>
+
+          <!-- Parameter 6 -->
+          <div class="sticky-card" style="background-color: #f8fafc; border-color: #cbd5e1;">
+            <div class="sticky-header" style="color: #334155;">
+              <span class="sticky-tag" style="background: #e2e8f0;">⚪ PARAMETER 6</span>
+              <strong>Key Measured Findings, Evidence Proof & Calibrated Milestone</strong>
+            </div>
+            <div class="item-guide-box">
+              <div class="guide-line"><strong>📌 What is this?</strong> The empirical performance numbers achieved in published literature, paired with your calibrated target milestone to surpass it (and verified citation).</div>
+              <div class="guide-line"><strong>✍️ How to write it:</strong> State the verified literature baseline numbers, set an ambitious yet realistic target milestone (e.g. ≥2- to 3-fold improvement or +10°C Tm), and cite the source paper.</div>
+              <div class="guide-eg"><strong>💡 Example:</strong> Literature achieved 0.92 Å crystal resolution and 0.13 mg/day/cm² baseline. Our target milestone: Achieve ≥3-fold accelerated degradation (≥0.40 mg/day/cm²) under marine salinity [Austin et al., 2018, PNAS, DOI: 10.1073/pnas.1718804115].</div>
+            </div>
+            <div class="parameter-insight-box" id="matrix-insight-citation">
+              <div class="insight-title">💡 Paper Explanation:</div>
+              <div class="insight-body" id="matrix-insight-citation-body">
+                Put a paper above or click "Auto-Fill" to see verified evidence proof and citation attribution.
+              </div>
+            </div>
+            <textarea id="matrix-citation" class="sticky-textarea" placeholder="e.g. Published baseline: 0.13 mg/day/cm² [Austin et al., 2018, PNAS, DOI: 10.1073/pnas.1718804115]. Calibrated proposal milestone: Achieve ≥3-fold accelerated degradation under operational conditions."></textarea>
+          </div>
+        </div>
+      </div>
+
+      
+
+<!-- 4. The RHEV Paraphrase Gym -->
+      <div class="guide-card" style="border: 2px solid #818cf8; background: #faf5ff;">
+        <div class="guide-card-header">
+          <div class="guide-card-title" style="color: #3730a3; display: flex; align-items: center; gap: 8px;">
+            <span>🏋️ The RHEV Paraphrase Gym (Anti-Plagiarism Trainer)</span>
+          </div>
+          <span class="badge-box" style="background: #e0e7ff; color: #3730a3;">Turnitin Defense</span>
+        </div>
+
+        <div class="subtitle-guide-box" style="background: #ffffff; border-left: 3px solid #818cf8; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #3730a3; margin-bottom: 14px; line-height: 1.5;">
+          <div style="margin-bottom: 4px;"><strong>📌 What is this?</strong> A practice space to rewrite scientific ideas in your own words so you avoid accidental plagiarism and Turnitin flags.</div>
+          <div><strong>✍️ How to write this:</strong> Read a sentence from your paper, hide it, write what you remember in your own words, and check that you kept the scientific facts without copying the original sentence structure.</div>
+        </div>
+        <p style="font-size: 0.85rem; color: #4338ca; margin-bottom: 14px;">
+          Practice transforming a sentence from your paper into safe academic prose without falling into the "Thesaurus Swap Trap":
+        </p>
+
+        <div class="field-block">
+          <label class="field-label" for="rhev-original">
+            <strong>1. READ: Paste Original Source Sentence from Paper:</strong>
+          </label>
+          <textarea id="rhev-original" class="form-textarea" style="min-height: 60px;" placeholder="Paste the exact sentence from the published paper here..."></textarea>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <button id="btn-rhev-hide" class="btn-secondary" style="background: #e0e7ff; color: #3730a3; font-size: 0.82rem;">
+            👁️ Toggle Hide Original Text
+          </button>
+        </div>
+
+        <div class="field-block">
+          <label class="field-label" for="rhev-draft">
+            <strong>2. EXPLAIN: Write from Memory in Your Own Words:</strong>
+          </label>
+          <textarea id="rhev-draft" class="form-textarea" style="min-height: 60px;" placeholder="Explain the biological finding without looking at the original sentence..."></textarea>
+        </div>
+
+        <button id="btn-rhev-audit" class="btn-primary" style="background-color: #4f46e5;">
+          🛡️ 3. VERIFY: Audit Paraphrase & Turnitin Risk
+        </button>
+
+        <div id="rhev-results-box" style="margin-top: 14px;"></div>
+      </div>
+
+    <!-- ================================================================= -->
+
+        <!-- 4. Section 2: Introduction & Project Background -->
+        <div class="guide-card" style="border-top: 4px solid #f59e0b; margin-top: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #b45309;">
+              📖 Section 2. Introduction & Project Background
+            </div>
+            <span class="badge-box" style="background:#fef3c7; color:#92400e;">Official Section 2</span>
+          </div>
+
+          <!-- 2.1 Problem Statement & Background -->
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 6px;">
+              2.1 Problem Statement & Background
+            </h3>
+            
+            <div class="subtitle-guide-box" style="background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #92400e; margin-bottom: 12px; line-height: 1.5;">
+              <div><strong>⚠️ University Template Requirement:</strong> Must be written in a <strong>unified narrative format</strong> (do NOT use bullet points). Introduce the topic broadly, narrow down to the specific problem, explain existing solutions and their limitations, and highlight the unresolved gap.</div>
+            </div>
+
+            <!-- 4 Funnel Tiers Guided Blocks -->
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-bottom: 12px;">
+              <div style="font-size: 0.85rem; font-weight: 700; color: #334155; margin-bottom: 10px;">
+                💡 Step-by-Step 4-Tier Funnel Builder (Draft your paragraphs below):
+              </div>
+              
+              <div class="funnel-block tier-1-border" style="margin-bottom: 10px;">
+                <label class="field-label"><strong>Tier 1: Global & National Burden (Broad Crisis with Statistics):</strong></label>
+                <textarea id="funnel-tier1" class="form-textarea" style="min-height: 60px;" placeholder="Introduce the large real-world crisis (disease, pollution, agricultural losses) with verified statistics and citation..."></textarea>
+              </div>
+
+              <div class="funnel-block tier-2-border" style="margin-bottom: 10px;">
+                <label class="field-label"><strong>Tier 2: Current Scientific Benchmark (Existing Approaches & Literature Baseline):</strong></label>
+                <textarea id="funnel-tier2" class="form-textarea" style="min-height: 60px;" placeholder="Explain what scientists or industries currently use today, and state the exact published baseline numbers..."></textarea>
+              </div>
+
+              <div class="funnel-block tier-3-border" style="margin-bottom: 10px;">
+                <label class="field-label"><strong>Tier 3: The Explicit Knowledge / Biophysical Gap (Why Current Tools Fail):</strong></label>
+                <textarea id="funnel-tier3" class="form-textarea" style="min-height: 60px;" placeholder="Identify the exact molecular, delivery, or stability bottleneck that prevents existing solutions from solving the problem..."></textarea>
+              </div>
+
+              <div class="funnel-block tier-4-border">
+                <label class="field-label"><strong>Tier 4: Proposed Project Aim & Hypothesis (If... then... because...):</strong></label>
+                <textarea id="funnel-tier4" class="form-textarea" style="min-height: 60px;" placeholder="State your proposed engineering approach and state your hypothesis: If [Tool] is expressed in [Chassis], then [Outcome] because [Mechanism]..."></textarea>
+              </div>
+            </div>
+
+            <!-- Section 2.1 Unified Narrative Box -->
+            <div class="narrative-assembler-card">
+              <div class="assembler-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <strong>Section 2.1 Unified Narrative Text:</strong>
+                  <button type="button" class="btn-insert-template" id="btn-assemble-unified-narrative" style="font-size: 0.76rem; padding: 4px 10px;">
+                    ✨ Assemble Unified Narrative from 4 Tiers
+                  </button>
+                </div>
+                <span class="word-count-badge" id="section-2-1-word-badge">0 words</span>
+              </div>
+              <p style="font-size: 0.76rem; color: #64748b; margin-bottom: 6px;">
+                This is the exact narrative that will appear in your official document under Section 2.1. Verify that it reads as a coherent academic text without bullet points.
+              </p>
+              <textarea id="section-2-1-unified" class="form-textarea" style="min-height: 140px; font-size: 0.88rem; line-height: 1.6;" placeholder="Your unified Section 2.1 narrative will appear here. Click 'Assemble Unified Narrative' above or type directly..."></textarea>
+            </div>
+          </div>
+
+          <!-- 2.2 Project Importance & Multi-Domain Impact -->
+          <div style="margin-top: 20px; margin-bottom: 20px;">
+            <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 6px;">
+              2.2 Project Importance & Multi-Domain Impact
+            </h3>
+            <p style="font-size: 0.82rem; color: #475569; margin-bottom: 10px;">
+              Highlight the significance of the project across applicable fields. <strong>Select only the domains that directly relate to your proposal:</strong>
+            </p>
+            
+            <div class="impact-domains-selector" id="impact-domains-selector">
+              <button type="button" class="domain-pill-btn" data-domain="healthcare">🏥 Healthcare & Medicine</button>
+              <button type="button" class="domain-pill-btn" data-domain="industrial">🏭 Industrial Biotechnology</button>
+              <button type="button" class="domain-pill-btn" data-domain="agricultural">🌾 Agricultural & Food</button>
+              <button type="button" class="domain-pill-btn" data-domain="environmental">🌍 Environmental & Sustainability</button>
+              <button type="button" class="domain-pill-btn" data-domain="societal">👥 Societal & Economic</button>
+            </div>
+
+            <label class="field-label" for="section-2-2-impact-text">
+              <strong>Expected Tangible Benefits for Selected Domains:</strong>
+            </label>
+            <textarea id="section-2-2-impact-text" class="form-textarea" style="min-height: 80px;" placeholder="Clearly describe the expected tangible benefits and applications for each selected domain..."></textarea>
+          </div>
+
+          <!-- 2.3 Target Audience & Direct Beneficiaries -->
+          <div style="margin-top: 20px;">
+            <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 6px;">
+              2.3 Target Audience & Direct Beneficiaries
+            </h3>
+            <label class="field-label" for="section-2-3-audience-text">
+              <strong>Specify End-Users, Stakeholders & Direct Beneficiaries:</strong>
+            </label>
+            <div class="item-guide-box" style="margin-bottom: 8px;">
+              <div class="guide-line"><strong>📌 What is this?</strong> Clearly identify who will directly use, deploy, or benefit from your proposed technology.</div>
+              <div class="guide-eg"><strong>💡 Examples:</strong> Clinical oncologists and lymphoma patients; industrial recycling facilities and municipal waste managers; smallholder cereal farmers in arid regions.</div>
+            </div>
+            <textarea id="section-2-3-audience-text" class="form-textarea" style="min-height: 70px;" placeholder="e.g. Direct beneficiaries include clinical diagnostic laboratories requiring point-of-care pathogen testing, and healthcare providers in low-resource clinics..."></textarea>
+          </div>
+        </div>
+
+        <div class="step-nav-footer">
+          <div></div>
+          <button class="btn-step-next" data-goto="2">
+            Save Phase 1 & Continue to Phase 2: Scientific Plan ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- PHASE 2: Scientific & Experimental Plan (Sections 3, 4, 5)       -->
+      <!-- ================================================================= -->
+      <div id="step-panel-2" class="step-panel">
+        <div class="step-hero">
+          <span class="step-badge">Phase 2 of 4 • Scientific & Experimental Plan</span>
+          <h1 class="step-heading">Aim, Objectives, Experimental Methodology & Risk Management</h1>
+          <p class="step-subheading">
+            Formulate your central aim and action-verb objectives (Sec 3), detail your future-tense experimental protocols with essential positive/negative controls (Sec 4), and design your technical contingency fallbacks (Sec 5).
+          </p>
+        </div>
+
+        <!-- Section 3. Project Aim & Objectives -->
+        <div class="guide-card" style="border-top: 4px solid #4f46e5; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #3730a3;">
+              🎯 Section 3. Project Aim & Objectives
+            </div>
+            <span class="badge-box" style="background:#e0e7ff; color:#3730a3;">Official Section 3</span>
+          </div>
+
+          <!-- 3.1 Overall Aim -->
+          <div style="margin-bottom: 20px;">
+            <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 6px;">
+              3.1 Overall Aim (Central Core Statement)
+            </h3>
+            <div class="subtitle-guide-box" style="background: #eef2ff; border-left: 3px solid #6366f1; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #312e81; margin-bottom: 10px; line-height: 1.5;">
+              <div><strong>📌 Format:</strong> Formulate <strong>one clear, overarching project aim statement</strong> summarizing the ultimate goal of the project.</div>
+            </div>
+            <textarea id="section-3-1-aim" class="form-textarea" style="min-height: 55px;" placeholder="e.g. To develop a rationally engineered, ultra-thermostable PETase enzyme in Pseudomonas putida capable of sustained elevated-temperature plastic depolymerization exceeding 80% conversion in 24 hours."></textarea>
+          </div>
+
+          <!-- 3.2 Specific Objectives -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 0;">
+                3.2 Specific Objectives (3 to 6 Action-Verb Objectives)
+              </h3>
+              <button type="button" class="btn-secondary" id="btn-add-objective" style="font-size: 0.78rem; padding: 4px 10px; background: #ecfdf5; color: #065f46; border-color: #a7f3d0; font-weight: 700;">+ Add Specific Objective</button>
+            </div>
+            
+            <div class="subtitle-guide-box" style="background: #f0fdf4; border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 12px; line-height: 1.5;">
+              <div><strong>📌 Action Verbs Requirement:</strong> Break your aim into 3 to 6 specific, measurable, sequential, and feasible objectives. Each objective <strong>must start with an active verb</strong> (e.g. <em>Design, Develop, Optimize, Characterize, Validate, Evaluate, Compare</em>).</div>
+            </div>
+
+            <div class="objective-builder-card">
+              <div id="objectives-builder-list">
+                <!-- Dynamically rendered by studio.js -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4. Methodology & Experimental Design -->
+        <div class="guide-card" style="border-top: 4px solid #06b6d4; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #0e7490;">
+              🧪 Section 4. Methodology & Experimental Design
+            </div>
+            <span class="badge-box" style="background:#cffafe; color:#0e7490;">Official Section 4</span>
+          </div>
+
+          <!-- 4.1 Technical Overview & Workflow -->
+          <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 0;">
+                4.1 Technical Overview & Workflow
+              </h3>
+              <span id="future-tense-guardian" class="status-pill status-grant-ready" style="font-size: 0.74rem;">🛡️ Future Tense: Perfect</span>
+            </div>
+
+            <div class="subtitle-guide-box" style="background: #ecfeff; border-left: 3px solid #06b6d4; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #0e7490; margin-bottom: 12px; line-height: 1.5;">
+              <div><strong>⚠️ Future Tense Rule:</strong> Proposals describe planned future experiments. Write in the <strong>future tense</strong> (e.g. <em>"will be engineered", "will be cultured", "will be measured"</em>). The Future Tense Guardian monitors this in real time.</div>
+            </div>
+
+            <textarea id="section-4-1-methodology" class="form-textarea" style="min-height: 110px;" placeholder="Provide a comprehensive technical overview of the research pipeline in future tense (e.g. Recombinant constructs will be designed via Gibson assembly, transformed into host cells, and assayed across temperature gradients)..."></textarea>
+          </div>
+
+          <!-- 4.2 Workflow Diagram -->
+          <div style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 0;">
+                4.2 Workflow Diagram (BioRender / Scientific Graphic)
+              </h3>
+              <button type="button" id="btn-generate-biorender-prompt" class="btn-secondary" style="font-size: 0.78rem; padding: 4px 10px; background: #e0f2fe; color: #0369a1; border-color: #bae6fd;">
+                🎨 Generate BioRender Prompt
+              </button>
+            </div>
+
+            <div class="subtitle-guide-box" style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #0369a1; margin-bottom: 12px; line-height: 1.5;">
+              <div><strong>📌 Figure Requirement:</strong> Include a visual workflow flowchart illustrating the chronological steps of your proposal. You can generate a custom prompt for BioRender, upload an image file, or paste a link.</div>
+            </div>
+
+            <div id="biorender-prompt-output" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 0.82rem; line-height: 1.45; color: #1e293b;"></div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+              <div>
+                <label class="field-label" for="flowchart-file-input"><strong>Upload Diagram Image (PNG / JPG):</strong></label>
+                <input type="file" id="flowchart-file-input" class="form-input" accept="image/*">
+              </div>
+              <div>
+                <label class="field-label" for="flowchart-url-input"><strong>Or Paste Image / BioRender URL:</strong></label>
+                <input type="text" id="flowchart-url-input" class="form-input" placeholder="https://...">
+              </div>
+            </div>
+
+            <div id="flowchart-preview-container" style="display: none; margin-bottom: 10px; text-align: center; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+              <img id="flowchart-preview-img" src="" alt="Workflow Flowchart Preview" style="max-height: 220px; max-width: 100%; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+            </div>
+
+            <label class="field-label" for="section-4-2-caption"><strong>Figure Caption:</strong></label>
+            <input type="text" id="section-4-2-caption" class="form-input" placeholder="e.g. Figure 1: Schematic representation of the rational design, continuous expression, and downstream validation pipeline.">
+          </div>
+
+          <!-- 4.3 Materials & Methods -->
+          <div>
+            <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 6px;">
+              4.3 Materials & Methods & Experimental Controls
+            </h3>
+
+            <!-- Controls Checklist -->
+            <div class="controls-checklist-box">
+              <label class="control-check-item">
+                <input type="checkbox" id="chk-control-positive" checked>
+                <div>
+                  <strong>Positive Control</strong>
+                  <div style="font-size: 0.73rem; color: #64748b;">Wild-type baseline host, native enzyme, or commercial standard</div>
+                </div>
+              </label>
+              <label class="control-check-item">
+                <input type="checkbox" id="chk-control-negative" checked>
+                <div>
+                  <strong>Negative Control</strong>
+                  <div style="font-size: 0.73rem; color: #64748b;">Empty vector, vehicle buffer, or mock-treated culture</div>
+                </div>
+              </label>
+              <label class="control-check-item">
+                <input type="checkbox" id="chk-control-triplicates" checked>
+                <div>
+                  <strong>Biological & Technical Triplicates</strong>
+                  <div style="font-size: 0.73rem; color: #64748b;">N ≥ 3 independent replicates with statistical standard deviation</div>
+                </div>
+              </label>
+            </div>
+
+            <label class="field-label" for="section-4-3-methods"><strong>Detailed Materials & Methods Prose:</strong></label>
+            <textarea id="section-4-3-methods" class="form-textarea" style="min-height: 120px;" placeholder="Detail your biological materials, culture media, vector constructs, transformation protocols, chromatography resins, and quantitative analytical assays..."></textarea>
+
+            <!-- Common Biotech Methods & Principles Toolkit Accordion -->
+            <div class="methods-toolkit-accordion">
+              <strong style="color: #14532d; font-size: 0.85rem; display: block; margin-bottom: 6px;">
+                🧬 Undergraduate Laboratory Methods & Scientific Principles Toolkit:
+              </strong>
+              
+              <details>
+                <summary>1. Gibson Assembly & Molecular Cloning</summary>
+                <div class="toolkit-content">
+                  <strong>Principle:</strong> Isothermal single-tube reaction combining 5' exonuclease (chews back 5' ends to expose 20–40 bp single-stranded homologous overhangs), DNA polymerase (fills remaining gaps), and DNA ligase (covalently seals phosphodiester nicks). Allows seamless joining of multiple fragments without restriction enzyme scar sites.
+                </div>
+              </details>
+
+              <details>
+                <summary>2. IPTG Induction & Recombinant Protein Expression</summary>
+                <div class="toolkit-content">
+                  <strong>Principle:</strong> Isopropyl β-D-1-thiogalactopyranoside (IPTG) is a non-hydrolyzable lactose analog. It binds the LacI repressor protein, triggering a conformational release from the lac operator promoter. This unlocks host T7 RNA polymerase to transcribe the recombinant gene at high rates without depletion.
+                </div>
+              </details>
+
+              <details>
+                <summary>3. Ni-NTA Immobilized Metal Affinity Chromatography (IMAC)</summary>
+                <div class="toolkit-content">
+                  <strong>Principle:</strong> Nitrilotriacetic acid (NTA) chelates divalent nickel ions (Ni²⁺), leaving open coordination sites. The electron-dense imidazole rings of a genetically fused 6x-Histidine tag coordinate tightly to the immobilized nickel. Elution occurs cleanly by introducing increasing concentrations of free imidazole, which outcompetes the His-tag.
+                </div>
+              </details>
+
+              <details>
+                <summary>4. HPLC / FPLC & Enzyme Kinetics</summary>
+                <div class="toolkit-content">
+                  <strong>Principle:</strong> Partition chromatography separating biomolecules based on differential affinities between a mobile liquid phase and a stationary column matrix (reverse-phase C18, ion-exchange, or size exclusion). Coupled UV-Vis detection enables precise quantification of substrate depletion (Vmax, Km) and product formation.
+                </div>
+              </details>
+
+              <details>
+                <summary>5. SDS-PAGE & Western Blot Verification</summary>
+                <div class="toolkit-content">
+                  <strong>Principle:</strong> Sodium dodecyl sulfate (SDS) denatures proteins and imparts a uniform negative charge-to-mass ratio. Proteins migrate through a polyacrylamide mesh strictly by molecular weight. Subsequent transfer to a PVDF/nitrocellulose membrane and antibody binding confirms molecular identity with chemiluminescence.
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5. Risk Management & Contingency Plan -->
+        <div class="guide-card" style="border-top: 4px solid #ef4444; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #991b1b;">
+              🛡️ Section 5. Risk Management & Contingency Plan
+            </div>
+            <span class="badge-box" style="background:#fee2e2; color:#991b1b;">Official Section 5</span>
+          </div>
+
+          <div class="subtitle-guide-box" style="background: #fef2f2; border-left: 3px solid #ef4444; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #991b1b; margin-bottom: 12px; line-height: 1.5;">
+            <div><strong>📌 Anticipating Technical Hurdles:</strong> Reviewers require honest identification of potential laboratory failure points and realistic fallback solutions (e.g. low expression, off-target toxicity, or protein precipitation).</div>
+          </div>
+
+          <div style="overflow-x: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 12px;">
+            <table class="team-roster-table" id="risks-table">
+              <thead>
+                <tr>
+                  <th style="width: 38%;">Potential Technical Failure Mode</th>
+                  <th style="width: 18%;">Risk Level</th>
+                  <th style="width: 38%;">Fallback Contingency Plan (Plan B)</th>
+                  <th style="width: 6%; text-align: center;">✕</th>
+                </tr>
+              </thead>
+              <tbody id="risks-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn-secondary" id="btn-add-risk-row" style="font-size: 0.78rem; padding: 4px 10px; background: #fee2e2; color: #991b1b; border-color: #fca5a5; font-weight: 700;">+ Add Risk Mitigation Row</button>
+        </div>
+
+        <div class="step-nav-footer">
+          <button class="btn-step-prev" data-goto="1">⬅ Back to Phase 1</button>
+          <button class="btn-step-next" data-goto="3">
+            Save Phase 2 & Continue to Phase 3: Strategy & Feasibility ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- PHASE 3: Strategic Impact & Feasibility (Sections 6, 7, 8, 9)     -->
+      <!-- ================================================================= -->
+      <div id="step-panel-3" class="step-panel">
+        <div class="step-hero">
+          <span class="step-badge">Phase 3 of 4 • Strategy & Feasibility</span>
+          <h1 class="step-heading">Strategic Impact, Timeline & Official Budget in EGP</h1>
+          <p class="step-subheading">
+            Analyze your market positioning via the Ansoff Matrix (Sec 6), evaluate strategic strengths and environmental factors via SWOT (Sec 7) and PESTEL (Sec 8), and budget your scientific milestones in Egyptian Pounds (Sec 9).
+          </p>
+        </div>
+
+        <!-- Section 6. Ansoff Matrix for Biotechnology -->
+        <div class="guide-card" style="border-top: 4px solid #8b5cf6; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #5b21b6;">
+              📊 Section 6. Ansoff Matrix for Biotechnology
+            </div>
+            <span class="badge-box" style="background:#ede9fe; color:#5b21b6;">Official Section 6</span>
+          </div>
+
+          <div class="subtitle-guide-box" style="background: #f5f3ff; border-left: 3px solid #8b5cf6; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #5b21b6; margin-bottom: 12px; line-height: 1.5;">
+            <div><strong>📌 Biotechnology Translation:</strong> The Ansoff Matrix categorizes your proposal's innovation risk and commercial direction across four biological quadrants:</div>
+          </div>
+
+          <!-- 2x2 Grid -->
+          <div class="ansoff-matrix-grid">
+            <!-- Q1: Market Penetration -->
+            <div class="ansoff-quadrant-card q-penetration">
+              <div class="ansoff-card-header">
+                <span class="ansoff-q-title">1. Market Penetration</span>
+                <span class="ansoff-q-badge" style="background:#dbeafe; color:#1e40af;">Existing Tech • Existing Market</span>
+              </div>
+              <p class="ansoff-prompt">
+                Applying known biotechnology tools to existing commercial markets (e.g. optimizing fermentation yield of existing recombinant insulin or bioethanol).
+              </p>
+              <textarea id="ansoff-penetration" class="form-textarea" style="min-height: 70px;" placeholder="How could existing tools improve existing commercial bioprocesses?"></textarea>
+            </div>
+
+            <!-- Q2: Product Development -->
+            <div class="ansoff-quadrant-card q-prod-dev">
+              <div class="ansoff-card-header">
+                <span class="ansoff-q-title">2. Product Development</span>
+                <span class="ansoff-q-badge" style="background:#d1fae5; color:#065f46;">New Tech • Existing Market</span>
+              </div>
+              <p class="ansoff-prompt">
+                Developing a novel engineered enzyme, CRISPR diagnostic, or CAR construct targeting an established diagnostic or clinical disease market.
+              </p>
+              <textarea id="ansoff-prod-dev" class="form-textarea" style="min-height: 70px;" placeholder="What novel molecular entity are you introducing to established clinical/industrial markets?"></textarea>
+            </div>
+
+            <!-- Q3: Market Development -->
+            <div class="ansoff-quadrant-card q-mkt-dev">
+              <div class="ansoff-card-header">
+                <span class="ansoff-q-title">3. Market Development</span>
+                <span class="ansoff-q-badge" style="background:#fef3c7; color:#92400e;">Existing Tech • New Market</span>
+              </div>
+              <p class="ansoff-prompt">
+                Taking established clinical diagnostic tools (e.g. lateral flow strips) into completely new markets like agricultural soil testing or field pesticide monitoring.
+              </p>
+              <textarea id="ansoff-mkt-dev" class="form-textarea" style="min-height: 70px;" placeholder="How could established biotech tools enter new sectors (agriculture, water safety)?"></textarea>
+            </div>
+
+            <!-- Q4: Diversification -->
+            <div class="ansoff-quadrant-card q-diversification">
+              <div class="ansoff-card-header">
+                <span class="ansoff-q-title">4. Diversification</span>
+                <span class="ansoff-q-badge" style="background:#ede9fe; color:#5b21b6;">New Tech • New Market</span>
+              </div>
+              <p class="ansoff-prompt">
+                High-risk, radical frontier innovation creating entirely new industries (e.g. microgravity space biomanufacturing or paleogenomic de-extinction).
+              </p>
+              <textarea id="ansoff-diversification" class="form-textarea" style="min-height: 70px;" placeholder="What radical, cross-cutting new technology and new frontier does this pioneer?"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 7. SWOT Analysis -->
+        <div class="guide-card" style="border-top: 4px solid #10b981; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #065f46;">
+              🔍 Section 7. SWOT Analysis
+            </div>
+            <span class="badge-box" style="background:#d1fae5; color:#065f46;">Official Section 7</span>
+          </div>
+
+          <div class="ansoff-matrix-grid">
+            <div class="ansoff-quadrant-card" style="border-top: 4px solid #10b981;">
+              <strong style="color: #065f46; display: block; margin-bottom: 4px;">Strengths (Internal):</strong>
+              <div style="font-size: 0.74rem; color: #64748b; margin-bottom: 6px;">Proprietary construct design, high specificity, low production cost.</div>
+              <textarea id="swot-strengths" class="form-textarea" style="min-height: 60px;" placeholder="Internal scientific and technical strengths..."></textarea>
+            </div>
+
+            <div class="ansoff-quadrant-card" style="border-top: 4px solid #f59e0b;">
+              <strong style="color: #92400e; display: block; margin-bottom: 4px;">Weaknesses (Internal):</strong>
+              <div style="font-size: 0.74rem; color: #64748b; margin-bottom: 6px;">Requires optimization under unpurified matrix conditions, temperature sensitivity.</div>
+              <textarea id="swot-weaknesses" class="form-textarea" style="min-height: 60px;" placeholder="Internal limitations or experimental hurdles..."></textarea>
+            </div>
+
+            <div class="ansoff-quadrant-card" style="border-top: 4px solid #3b82f6;">
+              <strong style="color: #1e40af; display: block; margin-bottom: 4px;">Opportunities (External):</strong>
+              <div style="font-size: 0.74rem; color: #64748b; margin-bottom: 6px;">Rising national demand, grant funding alignment, unmet clinical need.</div>
+              <textarea id="swot-opportunities" class="form-textarea" style="min-height: 60px;" placeholder="External market or healthcare opportunities..."></textarea>
+            </div>
+
+            <div class="ansoff-quadrant-card" style="border-top: 4px solid #ef4444;">
+              <strong style="color: #991b1b; display: block; margin-bottom: 4px;">Threats (External):</strong>
+              <div style="font-size: 0.74rem; color: #64748b; margin-bottom: 6px;">Competing commercial platforms, regulatory approval delays, import tariffs.</div>
+              <textarea id="swot-threats" class="form-textarea" style="min-height: 60px;" placeholder="External competition, biosecurity, or regulatory risks..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 8. PESTEL Analysis -->
+        <div class="guide-card" style="border-top: 4px solid #0284c7; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #0369a1;">
+              🌐 Section 8. PESTEL Analysis
+            </div>
+            <span class="badge-box" style="background:#e0f2fe; color:#0369a1;">Official Section 8</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+              <strong style="color: #1e293b; font-size: 0.82rem;">1. Political (P):</strong>
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 4px;">National research priorities, STDF alignment, governmental health policies.</div>
+              <textarea id="pestel-political" class="form-textarea" style="min-height: 50px; font-size: 0.82rem;"></textarea>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+              <strong style="color: #1e293b; font-size: 0.82rem;">2. Economic (E):</strong>
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 4px;">Cost-effectiveness, reduction in foreign currency dependency, scalability.</div>
+              <textarea id="pestel-economic" class="form-textarea" style="min-height: 50px; font-size: 0.82rem;"></textarea>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+              <strong style="color: #1e293b; font-size: 0.82rem;">3. Sociological (S):</strong>
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 4px;">Public acceptance of genetic modification, patient community trust.</div>
+              <textarea id="pestel-social" class="form-textarea" style="min-height: 50px; font-size: 0.82rem;"></textarea>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+              <strong style="color: #1e293b; font-size: 0.82rem;">4. Technological (T):</strong>
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 4px;">Sequencing availability, bioinformatics computing access, rapid prototyping.</div>
+              <textarea id="pestel-tech" class="form-textarea" style="min-height: 50px; font-size: 0.82rem;"></textarea>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+              <strong style="color: #1e293b; font-size: 0.82rem;">5. Environmental (E):</strong>
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 4px;">Zero toxic effluents, green biomanufacturing, carbon footprint reduction.</div>
+              <textarea id="pestel-env" class="form-textarea" style="min-height: 50px; font-size: 0.82rem;"></textarea>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+              <strong style="color: #1e293b; font-size: 0.82rem;">6. Legal & Regulatory (L):</strong>
+              <div style="font-size: 0.72rem; color: #64748b; margin-bottom: 4px;">Biosafety committee clearance (IBC), intellectual property patentability.</div>
+              <textarea id="pestel-legal" class="form-textarea" style="min-height: 50px; font-size: 0.82rem;"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 9. Timeline & Budget -->
+        <div class="guide-card" style="border-top: 4px solid #f59e0b; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #b45309;">
+              📅 Section 9. Timeline & Budget
+            </div>
+            <span class="badge-box" style="background:#fef3c7; color:#92400e;">Official Section 9</span>
+          </div>
+
+          <!-- 9.1 Project Timeline & Milestones (Scientific Gantt Chart) -->
+          <div style="margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+              <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 0;">
+                9.1 Project Timeline & Milestones (Scientific Gantt Chart)
+              </h3>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" id="btn-add-gantt-point" class="btn-secondary" style="font-size: 0.75rem; padding: 4px 10px; background: #ecfdf5; color: #065f46; border-color: #a7f3d0; font-weight: 700;">+ Add Timeline Phase</button>
+                <button type="button" id="btn-apply-timeline-benchmark" class="btn-secondary" style="font-size: 0.75rem; padding: 4px 10px; background: #dcfce7; color: #166534; border-color: #86efac; font-weight: 700;">⚡ Apply Literature Benchmarks</button>
+              </div>
+            </div>
+
+            <div class="subtitle-guide-box" style="background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #92400e; margin-bottom: 12px; line-height: 1.5;">
+              <div><strong>⚠️ Scientific Focus:</strong> Organize phases strictly by <strong>scientific work packages, durations, and Go/No-Go decision gates</strong>. Do NOT assign individual student names to Gantt chart tasks.</div>
+            </div>
+
+            <div style="overflow-x: auto; margin-bottom: 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+              <table class="gantt-tasks-table" id="gantt-tasks-table">
+                <thead>
+                  <tr>
+                    <th style="width: 36%;">Scientific Phase / Experimental Milestone</th>
+                    <th style="width: 12%; text-align: center;">Start (M)</th>
+                    <th style="width: 12%; text-align: center;">End (M)</th>
+                    <th style="width: 10%; text-align: center;">Duration</th>
+                    <th style="width: 25%;">Go / No-Go Decision Gate</th>
+                    <th style="width: 5%; text-align: center;">✕</th>
+                  </tr>
+                </thead>
+                <tbody id="gantt-tasks-tbody">
+                  <!-- Rendered dynamically via studio.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <div id="step5-gantt-visual-container" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; overflow-x: auto;">
+              <!-- Drawn dynamically -->
+            </div>
+          </div>
+
+          <!-- 9.2 Budget & Resource Allocation (in Egyptian Pounds - EGP) -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <h3 style="font-size: 0.98rem; font-weight: 800; color: #1e293b; margin-bottom: 0;">
+                  9.2 Budget & Resource Allocation
+                </h3>
+                <span class="egp-currency-badge">Currency: Egyptian Pounds (EGP / ج.م)</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <button type="button" id="btn-add-egp-budget-row" class="btn-secondary" style="font-size: 0.75rem; padding: 4px 10px; background: #ecfdf5; color: #065f46; border-color: #a7f3d0; font-weight: 700;">+ Add Expense Item</button>
+                <button type="button" id="btn-load-standard-egp-budget" class="btn-secondary" style="font-size: 0.75rem; padding: 4px 10px; background: #eff6ff; color: #1e40af; border-color: #bfdbfe;">⚡ Load Standard EGP Categories</button>
+              </div>
+            </div>
+
+            <div class="subtitle-guide-box" style="background: #ecfdf5; border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 12px; line-height: 1.5;">
+              <div><strong>📌 Official Categories A through F:</strong> Itemize your research costs across the 6 standard university categories in Egyptian Pounds:</div>
+              <div style="font-size: 0.76rem; margin-top: 4px; color: #14532d;">
+                <strong>A.</strong> Equipment & Hardware • <strong>B.</strong> Consumables, Kits & Reagents • <strong>C.</strong> Travel/Fieldwork • <strong>D.</strong> Personnel/Stipends • <strong>E.</strong> Training & Software Licenses • <strong>F.</strong> Other Direct Costs/Contingency
+              </div>
+            </div>
+
+            <div style="overflow-x: auto; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 12px;">
+              <table class="budget-egp-table" id="budget-egp-table">
+                <thead>
+                  <tr>
+                    <th style="width: 32%;">Item Description & Specifications</th>
+                    <th style="width: 22%;">Official Category</th>
+                    <th style="width: 10%; text-align: center;">Qty</th>
+                    <th style="width: 16%; text-align: right;">Unit Cost (EGP)</th>
+                    <th style="width: 16%; text-align: right;">Total Cost (EGP)</th>
+                    <th style="width: 4%; text-align: center;">✕</th>
+                  </tr>
+                </thead>
+                <tbody id="budget-egp-tbody">
+                  <!-- Dynamically populated via studio.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Grand Total in EGP -->
+            <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+              <div>
+                <span style="font-size: 0.8rem; font-weight: 700; color: #92400e; text-transform: uppercase;">Total Requested Project Budget</span>
+                <div id="budget-egp-grand-total" style="font-size: 1.45rem; font-weight: 800; color: #78350f;">0 EGP</div>
+              </div>
+              <div id="budget-egp-breakdown" style="font-size: 0.8rem; color: #92400e; text-align: right;">
+                A: 0% | B: 0% | C: 0% | D: 0% | E: 0% | F: 0%
+              </div>
+            </div>
+
+            <label class="field-label" for="budget-input"><strong>Budget Justification Notes:</strong></label>
+            <textarea id="budget-input" class="form-textarea" style="min-height: 60px;" placeholder="Explain why the major consumables, recombinant kits, and equipment purchases are required for successful execution..."></textarea>
+          </div>
+        </div>
+
+        <div class="step-nav-footer">
+          <button class="btn-step-prev" data-goto="2">⬅ Back to Phase 2</button>
+          <button class="btn-step-next" data-goto="4">
+            Save Phase 3 & Continue to Phase 4: Synthesis & Submission ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- PHASE 4: Synthesis, References & Submission (Sections 1, 10 & Full Preview) -->
+      <!-- ================================================================= -->
+      <div id="step-panel-4" class="step-panel">
+        <div class="step-hero">
+          <span class="step-badge">Phase 4 of 4 • Synthesis, References & Submission</span>
+          <h1 class="step-heading">Abstract, Peer-Reviewed References & Official Document Preview</h1>
+          <p class="step-subheading">
+            Draft your concise 150–250 word Abstract (Section 1) and keywords, assemble your APA 7th reference list (Section 10), rehearse with the oral defense simulator, and preview your complete official BT_301 proposal.
+          </p>
+        </div>
+
+        <!-- Section 1. Abstract & Keywords (Drafted here at the end!) -->
+        <div class="guide-card" style="border-top: 4px solid #10b981; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #065f46;">
+              📝 Section 1. Abstract & Project Keywords
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="abstract-word-badge" class="word-count-badge badge-warning">0 words (Target: 150–250)</span>
+              <span class="badge-box" style="background:#d1fae5; color:#065f46;">Renders as Section 1</span>
+            </div>
+          </div>
+
+          <div class="subtitle-guide-box" style="background: #f0fdf4; border-left: 3px solid #10b981; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 12px; line-height: 1.5;">
+            <div><strong>📌 Written Last, Read First:</strong> An abstract is drafted after completing your scientific plan so you can summarize the full project in <strong>150–250 words</strong>. Ensure your abstract touches on all 5 essential pillars:</div>
+          </div>
+
+          <!-- 5 Abstract Essentials Checklist -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 0.8rem; color: #334155; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+            <div>✓ 1. Scientific problem / global burden</div>
+            <div>✓ 2. Knowledge or practical gap</div>
+            <div>✓ 3. Proposed solution & scientific model</div>
+            <div>✓ 4. Main methodology & approach</div>
+            <div>✓ 5. Expected significance & tangible impact</div>
+          </div>
+
+          <textarea id="proposal-abstract-input" class="form-textarea" style="min-height: 140px; font-size: 0.9rem; line-height: 1.6;" placeholder="Write a concise 150–250 word summary of the proposed project introducing the problem, gap, proposed solution, methodology, and expected impact..."></textarea>
+
+          <div class="field-block" style="margin-top: 14px;">
+            <label class="field-label" for="abstract-keywords-input"><strong>Keywords (4 to 6 relevant terms):</strong></label>
+            <input type="text" id="abstract-keywords-input" class="form-input" placeholder="e.g. Synthetic biology, PETase, Bioremediation, Pseudomonas putida, Plastic degradation">
+          </div>
+        </div>
+
+        <!-- Section 10. References Cited -->
+        <div class="guide-card" style="border-top: 4px solid #4338ca; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #312e81;">
+              📚 Section 10. References (APA 7th Edition / Vancouver)
+            </div>
+            <button type="button" id="btn-assemble-bibliography" class="btn-secondary" style="font-size: 0.78rem; padding: 4px 10px; background: #e0e7ff; color: #3730a3; border-color: #c7d2fe;">
+              ⚡ Assemble from Decoded Papers & Citations
+            </button>
+          </div>
+
+          <div class="subtitle-guide-box" style="background: #eef2ff; border-left: 3px solid #4338ca; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #1e1b4b; margin-bottom: 12px; line-height: 1.5;">
+            <div><strong>📌 Citation Standards:</strong> Cite all primary research articles, reviews, and methods in standard academic format (APA 7th or Vancouver) with working DOIs.</div>
+          </div>
+
+          <textarea id="proposal-references-input" class="form-textarea" style="min-height: 100px; font-size: 0.84rem; font-family: monospace;" placeholder="1. Tournier, V. et al. (2020). An engineered PET depolymerase to break down and recycle plastic bottles. Nature, 580(7802), 216-219. https://doi.org/10.1038/s41586-020-2149-4..."></textarea>
+        </div>
+
+        <!-- Oral Defense Simulator (Viva Voce Practice) -->
+        <div class="guide-card" style="border-left: 4px solid #c026d3; margin-bottom: 24px;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #86198f;">
+              🎙️ Oral Defense Cross-Examination Simulator (Mock Faculty Panel)
+            </div>
+            <button id="btn-generate-viva" class="btn-secondary" style="font-size: 0.85rem; color: #86198f; border-color: #f0abfc;">
+              🎙️ Simulate Viva Voce Review
+            </button>
+          </div>
+          <p style="font-size: 0.83rem; color: #475569; margin-bottom: 10px;">
+            Rehearse answering technical cross-examination questions from university professors before your final oral defense:
+          </p>
+          <div id="viva-results-container">
+            <p style="color: #64748b; font-style: italic; font-size: 0.83rem;">
+              Click "Simulate Viva Voce Review" above to generate technical oral defense questions.
+            </p>
+          </div>
+        </div>
+
+        <!-- Official BT_301 Proposal Document Live Preview & Export Hub -->
+        <div class="guide-card" style="border-top: 4px solid #059669;">
+          <div class="guide-card-header">
+            <div class="guide-card-title" style="color: #065f46;">
+              📄 Official BT_301 Full Proposal Document Preview & Export Hub
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" id="btn-export-docx" class="btn-primary" style="background:#059669; border-color:#059669; font-size: 0.8rem; padding: 6px 12px;">
+                📥 Export Word (.docx)
+              </button>
+              <button type="button" id="btn-export-md" class="btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+                📥 Export Markdown (.md)
+              </button>
+              <button type="button" id="btn-export-pdf" class="btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+                🖨️ Print / PDF
+              </button>
+            </div>
+          </div>
+
+          <div class="subtitle-guide-box" style="background: #ecfdf5; border-left: 3px solid #059669; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #065f46; margin-bottom: 14px; line-height: 1.5;">
+            <div><strong>🎉 Final Document:</strong> This preview renders your exact official BT_301 assignment document—formatted with the official course masthead, team roster table, and all 10 sections in order!</div>
+          </div>
+
+          <!-- Official Formatted Document Canvas -->
+          <div class="official-doc-container" id="official-preview-container">
+            <!-- Dynamically populated via studio.js -->
+          </div>
+        </div>
+
+        <div class="step-nav-footer">
+          <button class="btn-step-prev" data-goto="3">⬅ Back to Phase 3: Strategy & Feasibility</button>
+          <div style="color: #059669; font-weight: 700; font-size: 0.9rem;">
+            🎉 All 10 official BT_301 proposal sections completed and ready for submission!
+          </div>
+        </div>
+      </div>
+
+    </main><!-- End studio-canvas -->
+
+    <!-- Zone 3: Right Pane - Official BT_301 Assignment Live Preview -->
+    <aside class="live-manuscript-pane" id="live-manuscript-pane">
+      <div class="manuscript-nature-bar">
+        <div class="nature-logo-group">
+          <span class="nature-masthead-title">BT_301 Proposal Preview</span>
+          <span class="nature-tag-pill">LIVE ASSIGNMENT VIEW</span>
+        </div>
+        <div class="nature-actions-group">
+          <button type="button" class="btn-manu-action" id="btn-print-manuscript" title="Print or save proposal to PDF">🖨️ Print / PDF</button>
+          <button type="button" class="btn-manu-action" id="btn-copy-manuscript" title="Copy full formatted proposal text">📋 Copy</button>
+        </div>
+      </div>
+      <div class="manuscript-doi-bar">
+        <span>BT_301 Introduction to Biotechnology • Semester Proposal</span>
+        <span class="manu-status-tag" id="manu-eval-badge">● Official Template Standard</span>
+      </div>
+
+      <!-- Live Assignment Document Content -->
+      <div class="manuscript-article-header" style="text-align: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 14px;">
+        <div style="font-size: 0.82rem; font-weight: 800; color: #4338ca; text-transform: uppercase;">Introduction to Biotechnology (BT_301)</div>
+        <h1 class="manuscript-title" id="manu-title" style="font-size: 1.15rem; margin: 8px 0;">Proposal Title Not Yet Specified</h1>
+        <div class="manuscript-authors" id="manu-author" style="font-size: 0.84rem; color: #475569;">Student / Team Members</div>
+        <div id="manu-submission-date" style="font-size: 0.76rem; color: #64748b; margin-top: 4px;">Submission Date: Pending</div>
+      </div>
+
+      <!-- Live Abstract Box (Section 1) -->
+      <div class="manuscript-abstract-container">
+        <div class="manuscript-abstract-header">
+          <span class="abstract-title-label">1. ABSTRACT</span>
+          <span class="abstract-badge-count" id="manu-abstract-count">0 words (150–250w target)</span>
+        </div>
+        <div class="manuscript-abstract-text" id="manu-abstract">No structured abstract drafted yet.</div>
+        <div style="margin-top: 8px; font-size: 0.78rem; color: #1e293b;">
+          <strong>Keywords:</strong> <span id="manu-keywords">None specified</span>
+        </div>
+      </div>
+
+      <!-- Sections 2 through 10 Live Content -->
+      <div class="manuscript-columns" style="display: flex; flex-direction: column; gap: 14px; margin-top: 14px;">
+        <!-- 2. Introduction & Background -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">2. Introduction & Project Background</h2>
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 6px;">2.1 Problem Statement & Background</div>
+          <div class="manuscript-sec-body" id="manu-background" style="font-size: 0.82rem; line-height: 1.5; text-align: justify;">Draft your Section 2.1 unified narrative in Phase 1.</div>
+          
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">2.2 Project Importance & Multi-Domain Impact</div>
+          <div class="manuscript-sec-body" id="manu-impact-domains" style="font-size: 0.82rem; line-height: 1.5;">Select impact domains in Phase 1.</div>
+
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">2.3 Target Audience & Direct Beneficiaries</div>
+          <div class="manuscript-sec-body" id="manu-target-audience" style="font-size: 0.82rem; line-height: 1.5;">Specify target beneficiaries in Phase 1.</div>
+        </section>
+
+        <!-- 3. Aim & Objectives -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">3. Project Aim & Objectives</h2>
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 6px;">3.1 Overall Aim</div>
+          <div class="manuscript-sec-body" id="manu-aim-overall" style="font-size: 0.82rem; line-height: 1.5;">Formulate your overarching aim in Phase 2.</div>
+
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">3.2 Specific Objectives</div>
+          <div class="manuscript-sec-body" id="manu-aims-list" style="font-size: 0.82rem; line-height: 1.5;">Formulate your 3–6 action verb objectives in Phase 2.</div>
+        </section>
+
+        <!-- 4. Methodology & Experimental Design -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">4. Methodology & Experimental Design</h2>
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 6px;">4.1 Technical Overview & Workflow</div>
+          <div class="manuscript-sec-body" id="manu-methodology" style="font-size: 0.82rem; line-height: 1.5;">Detail your future-tense workflow in Phase 2.</div>
+
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">4.2 Workflow Diagram</div>
+          <div id="manu-figure-preview" style="font-size: 0.8rem; color: #64748b; font-style: italic; margin-top: 4px;">Figure 1 workflow diagram preview</div>
+
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">4.3 Materials & Methods</div>
+          <div class="manuscript-sec-body" id="manu-materials-methods" style="font-size: 0.82rem; line-height: 1.5;">Specify materials, protocols, and controls in Phase 2.</div>
+        </section>
+
+        <!-- 5. Risk Management -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">5. Risk Management & Contingency Plan</h2>
+          <div class="manuscript-sec-body" id="manu-risks" style="font-size: 0.82rem; line-height: 1.5;">Detail risk fallbacks in Phase 2.</div>
+        </section>
+
+        <!-- 6. Ansoff Matrix -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">6. Ansoff Matrix for Biotechnology</h2>
+          <div class="manuscript-sec-body" id="manu-ansoff" style="font-size: 0.82rem; line-height: 1.5;">Configure 4 quadrants in Phase 3.</div>
+        </section>
+
+        <!-- 7. SWOT Analysis -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">7. SWOT Analysis</h2>
+          <div class="manuscript-sec-body" id="manu-swot" style="font-size: 0.82rem; line-height: 1.5;">Configure SWOT in Phase 3.</div>
+        </section>
+
+        <!-- 8. PESTEL Analysis -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">8. PESTEL Analysis</h2>
+          <div class="manuscript-sec-body" id="manu-pestel" style="font-size: 0.82rem; line-height: 1.5;">Configure PESTEL in Phase 3.</div>
+        </section>
+
+        <!-- 9. Timeline & Budget -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">9. Timeline & Budget</h2>
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 6px;">9.1 Project Timeline & Milestones</div>
+          <div class="manuscript-sec-body" id="manu-timeline" style="font-size: 0.82rem; line-height: 1.5;">Configure scientific Gantt in Phase 3.</div>
+
+          <div style="font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-top: 8px;">9.2 Budget & Resource Allocation (EGP)</div>
+          <div class="manuscript-sec-body" id="manu-budget" style="font-size: 0.82rem; line-height: 1.5;">Configure EGP budget in Phase 3.</div>
+        </section>
+
+        <!-- 10. References -->
+        <section class="manuscript-sec">
+          <h2 class="manuscript-sec-heading">10. References</h2>
+          <div class="manuscript-sec-body manuscript-refs" id="manu-references" style="font-size: 0.8rem; line-height: 1.5;">Paste references in Phase 4.</div>
+        </section>
+      </div>
+    </aside>
+  </div><!-- End studio-workspace -->
+
+
+  <!-- BIOTECHNOLOGY BREAKTHROUGHS RADAR & DISCOVERY VAULT -->
+  <!-- Designed & Authored by Maya Abdelrazek & Youssef Aboulkheir -->
+  <!-- ================================================================= -->
+  <main class="breakthroughs-wrapper" id="view-container-breakthroughs" style="display: none;">
+    <!-- Authorship Watermark Ribbon -->
+    <div class="authorship-ribbon">
+      <div class="ribbon-brand">
+        <span class="ribbon-shield">🛡️</span>
+        <span>BioWriter Studio • Biotechnology Discovery Engine</span>
+      </div>
+      <div class="ribbon-authors">
+        <span>Designed & Developed by</span>
+        <strong class="author-highlight">Maya Abdelrazek & Youssef Aboulkheir</strong>
+        <span class="ribbon-tag">Protected Academic Framework</span>
+      </div>
+    </div>
+
+    <!-- Hero Header -->
+    <div class="breakthroughs-hero">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span class="pulse-glow-dot">●</span> <span>Continuous Europe PMC Discovery Engine</span>
+        </div>
+        <h1 class="hero-title">Biotechnology Breakthroughs Radar</h1>
+        <p class="hero-desc">
+          Explore foundational biotechnology milestones and stream live 2025–2026 discoveries.
+          Every entry is structured with <strong>authentic biological mechanisms and benchmarks</strong>—with zero filler text—and calibrated for instant 1-click citation into your BT_301 research proposal.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <!-- Quick Stats Strip -->
+        <div class="bt-stats-strip">
+          <div class="bt-stat-card">
+            <span class="bt-stat-num" id="stat-total-count">19</span>
+            <span class="bt-stat-label">Total Milestones</span>
+          </div>
+          <div class="bt-stat-card">
+            <span class="bt-stat-num" id="stat-foundational-count">16</span>
+            <span class="bt-stat-label">Foundational</span>
+          </div>
+          <div class="bt-stat-card">
+            <span class="bt-stat-num" id="stat-live-count">3</span>
+            <span class="bt-stat-label">Live Discoveries</span>
+          </div>
+          <div class="bt-stat-card">
+            <span class="bt-stat-num" id="stat-bookmarked-count">0</span>
+            <span class="bt-stat-label">Bookmarked</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Control Center & Storage Area Switcher -->
+    <div class="breakthroughs-controls-card">
+      <!-- Row 1: Storage Area Filter Pills -->
+      <div class="controls-row storage-row">
+        <div class="control-label-group">
+          <span class="control-icon">🗄️</span>
+          <span class="control-title">Storage Vault:</span>
+        </div>
+        <div class="storage-pills-bar" id="storage-pills-bar">
+          <button type="button" class="btn-storage-pill active" data-storage="all">
+            <span>🌐 All Milestones</span>
+            <span class="pill-count" id="count-pill-all">19</span>
+          </button>
+          <button type="button" class="btn-storage-pill" data-storage="foundational">
+            <span>🏛️ Foundational Classics (16)</span>
+            <span class="pill-count" id="count-pill-foundational">16</span>
+          </button>
+          <button type="button" class="btn-storage-pill" data-storage="live">
+            <span>⚡ Fresh Live Discoveries</span>
+            <span class="pill-count" id="count-pill-live">3</span>
+          </button>
+          <button type="button" class="btn-storage-pill" data-storage="bookmarks">
+            <span>⭐ My Bookmarks</span>
+            <span class="pill-count" id="count-pill-bookmarks">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 2: Category Filter & View Mode Switcher -->
+      <div class="controls-row options-row">
+        <div class="categories-scroll" id="bt-category-buttons">
+          <button type="button" class="btn-bt-cat active" data-cat="All">All Disciplines</button>
+          <button type="button" class="btn-bt-cat" data-cat="Genome Editing & CRISPR">🧬 Genome Editing</button>
+          <button type="button" class="btn-bt-cat" data-cat="Therapeutics & Vaccines">💉 Therapeutics & Vaccines</button>
+          <button type="button" class="btn-bt-cat" data-cat="Industrial & Synthetic Biology">⚙️ Synthetic Bio</button>
+          <button type="button" class="btn-bt-cat" data-cat="Agricultural & Environmental">🌾 Agri & Ecology</button>
+          <button type="button" class="btn-bt-cat" data-cat="Diagnostics & Biosensors">🔍 Diagnostics</button>
+          <button type="button" class="btn-bt-cat" data-cat="Cell & Tissue Engineering">🧫 Cell Engineering</button>
+        </div>
+
+        <div class="presentation-mode-toggle">
+          <button type="button" class="btn-pres-mode active" id="btn-mode-edu" data-mode="edu" title="Educational breakdown: What it is, problem solved, 3-step mechanism, why it matters">
+            💡 Conceptual Steps
+          </button>
+          <button type="button" class="btn-pres-mode" id="btn-mode-tech" data-mode="tech" title="Technical breakdown: Biochemical mechanism, quantitative benchmark, control, citation">
+            🔬 Technical Architecture
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 3: Real-Time Search & Live Europe PMC Sync Bar -->
+      <div class="controls-row search-sync-row">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="bt-search-input" class="bt-search-field" placeholder="Search by tool (e.g. Cas9, Prime Editor), chassis, benchmark, or problem solved...">
+          <button type="button" class="btn-clear-search" id="btn-clear-bt-search" style="display: none;">✕</button>
+        </div>
+
+        <div class="sync-actions-group">
+          <input type="text" id="bt-sync-topic-input" class="bt-topic-field" placeholder="Custom topic (e.g. base editing, mRNA, biosensors)...">
+          <button type="button" class="btn-sync-europepmc" id="btn-sync-europepmc" title="Fetch newest 2026 peer-reviewed papers from Europe PMC, extract authentic purpose and benchmarks">
+            <span class="sync-icon">🔄</span> <span>Check for Fresh Discoveries</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Sync Alert / Loading Progress -->
+    <div class="bt-sync-status-bar" id="bt-sync-status-bar" style="display: none;">
+      <span class="spinner-inline">⏳</span>
+      <span id="bt-sync-status-text">Querying Europe PMC API and deconstructing biological mechanisms...</span>
+    </div>
+
+    <!-- Breakthrough Cards Grid -->
+    <div class="breakthroughs-grid" id="breakthroughs-cards-container">
+      <!-- Dynamically populated via JS -->
+    </div>
+
+    <!-- Empty State -->
+    <div class="breakthroughs-empty-state" id="breakthroughs-empty-state" style="display: none;">
+      <div class="empty-icon">🔬</div>
+      <div class="empty-title">No Breakthroughs Match Your Filter</div>
+      <div class="empty-desc">Try clearing your search query or check for fresh discoveries using Europe PMC.</div>
+      <button type="button" class="btn-secondary" id="btn-reset-bt-filters">Reset All Filters</button>
+    </div>
+  </main>
+
+  <!-- Global Academic Authorship & Anti-Theft Watermark Footer -->
+  <footer class="portal-global-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo">🧬</span>
+        <div>
+          <div class="footer-title">BioWriter Studio • BT_301 Proposal Writing Suite</div>
+          <div class="footer-creators">
+            Academic Architecture, System Engineering & Curated Knowledgebase by
+            <strong>Maya Abdelrazek & Youssef Aboulkheir</strong>
+          </div>
+        </div>
+      </div>
+      <div class="footer-badge-wrap">
+        <span class="footer-license-badge">🛡️ Protected Academic IP • All Rights Reserved</span>
+        <span class="footer-copy">© 2026 Maya Abdelrazek & Youssef Aboulkheir</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Persistent Next Action Floating Guidance Bar (A3) -->
+  <aside class="floating-next-action-bar" id="studio-floating-guidance-bar" style="display: none;">
+    <div class="next-action-container">
+      <div class="next-action-left">
+        <span class="next-action-badge">🎯 NEXT MILESTONE</span>
+        <span class="next-action-text" id="floating-next-action-text">Define Project Pillars in Step 1</span>
+      </div>
+      <div class="next-action-right">
+        <div class="next-action-progress" id="floating-progress-pill">Milestones: 0/10 (0%)</div>
+        <button type="button" class="btn-next-action-jump" id="btn-floating-jump-action">
+          <span>Take Action</span> <span>➔</span>
+        </button>
+        <button type="button" class="btn-dismiss-floating-bar" id="btn-dismiss-floating-bar" title="Hide milestone guidance bar" style="background: transparent; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; padding: 2px 8px; line-height: 1; border-radius: 6px; transition: all 0.15s ease;">✕</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Instructor Evaluation Memo Modal (Part 3.2) -->
+  <div class="auth-modal-overlay" id="modal-instructor-memo" style="display: none;">
+    <div class="auth-modal-dialog" style="max-width: 680px; width: 90%;">
+      <div class="auth-modal-header" style="background: linear-gradient(135deg, #1e1b4b, #312e81);">
+        <div class="auth-brand-badge" style="color: #ffffff;">
+          <span>📜</span> <span>Official Faculty Evaluation & Viva Directives</span>
+        </div>
+        <button type="button" class="btn-auth-close" id="btn-close-memo-modal" title="Close" style="color:#ffffff;">✕</button>
+      </div>
+      <div style="padding: 24px; background: #ffffff; border-radius: 0 0 16px 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <div style="font-weight: 800; font-size: 1.05rem; color: #0f172a;" id="memo-modal-student-name">Student Proposal Review</div>
+            <div style="font-size: 0.78rem; color: #64748b;" id="memo-modal-date">Reviewed Recently</div>
+          </div>
+          <span id="memo-modal-standing-badge" class="status-pill status-grant-ready" style="font-size: 0.82rem; padding: 4px 10px;">🌟 Grant-Ready</span>
+        </div>
+
+        <div style="margin-bottom: 12px; font-size: 0.8rem; font-weight: 800; color: #334155; text-transform: uppercase; letter-spacing: 0.5px;">
+          Formal Evaluator Memo & Viva Defense Observations:
+        </div>
+        <div class="memo-output" id="memo-modal-content" style="max-height: 380px; overflow-y: auto; background: #0f172a; color: #f8fafc; padding: 16px; border-radius: 10px; font-family: monospace; font-size: 0.82rem; line-height: 1.6; white-space: pre-wrap;"></div>
+
+        <div style="margin-top: 18px; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-secondary" id="btn-copy-memo-modal">📋 Copy Memo</button>
+          <button type="button" class="btn-primary" id="btn-dismiss-memo-modal">Acknowledge & Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Authentication Modal (Option A SaaS Design) -->
+  <div class="auth-modal-overlay" id="auth-modal-overlay" style="display: none;">
+    <div class="auth-modal-dialog">
+      <div class="auth-modal-header">
+        <div class="auth-brand-badge">
+          <span>🧬</span> <span>BioWriter Student Access</span>
+        </div>
+        <button type="button" class="btn-auth-close" id="btn-auth-close" title="Close">✕</button>
+      </div>
+
+      <!-- Segmented Tab Switcher -->
+      <div class="auth-tab-bar">
+        <button type="button" class="auth-tab-btn active" id="tab-btn-signin" data-tab="signin">Sign In</button>
+        <button type="button" class="auth-tab-btn" id="tab-btn-register" data-tab="register">Create Account</button>
+      </div>
+
+      <!-- Error / Feedback Alert Banner -->
+      <div class="auth-alert-banner" id="auth-alert-banner" style="display: none;"></div>
+
+      <!-- Tab 1: Sign In Form -->
+      <form id="form-auth-signin" class="auth-tab-content">
+        <div class="auth-form-group">
+          <label for="signin-student-id" class="auth-field-label">Student ID / Team Code</label>
+          <input type="text" id="signin-student-id" class="form-input" placeholder="e.g. ST-2026-01" required autocomplete="username">
+        </div>
+
+        <div class="auth-form-group">
+          <label for="signin-password" class="auth-field-label">Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="signin-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" class="btn-toggle-pwd" data-target="signin-password" title="Show/Hide password">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth-submit" id="btn-submit-signin">
+          <span>🚀 Sign In & Open Studio</span>
+        </button>
+
+        <!-- 1-Click Demo Cohort Login for Graders / Reviewers -->
+        <div class="auth-gate-quick-fill" style="margin-top: 14px;">
+          <span class="quick-fill-label" style="font-size: 0.72rem; color: #64748b; font-weight: 600; text-transform: uppercase;">1-Click Demo Cohort Accounts:</span>
+          <div class="quick-fill-chips" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
+            <button type="button" class="btn-quick-fill" data-id="13989" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 600;">🛡️ Maya Abdelrazek (13989)</button>
+            <button type="button" class="btn-quick-fill" data-id="ST-2026-01" style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 600;">🧬 Sara Ahmed (ST-2026-01)</button>
+            <button type="button" class="btn-quick-fill" data-id="ST-2026-02" style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 600;">♻️ Zaid Ibrahim (ST-2026-02)</button>
+            <button type="button" class="btn-quick-fill" data-id="ST-2026-03" style="background: #fffbeb; color: #92400e; border: 1px solid #fde68a; padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; cursor: pointer; font-weight: 600;">🌾 Nour Al-Huda (ST-2026-03)</button>
+          </div>
+        </div>
+
+        <div class="auth-footer-help" style="margin-top: 10px;">
+          Sign in with your student credentials to access your saved proposal draft and instructor feedback.
+        </div>
+      </form>
+
+      <!-- Tab 2: Create Account Form -->
+      <form id="form-auth-register" class="auth-tab-content" style="display: none;">
+        <div class="auth-form-group">
+          <label for="reg-student-id" class="auth-field-label">Choose Student ID / Team Code</label>
+          <input type="text" id="reg-student-id" class="form-input" placeholder="e.g. ST-2026-04 or your University ID" required autocomplete="username">
+        </div>
+
+        <div class="auth-form-group">
+          <label for="reg-student-name" class="auth-field-label">Principal Investigator(s) / Team Name</label>
+          <input type="text" id="reg-student-name" class="form-input" placeholder="e.g. Maya Lin & Team NeuroBio" required>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="reg-password" class="auth-field-label">Create Password (min. 4 characters)</label>
+          <div class="password-input-wrap">
+            <input type="password" id="reg-password" class="form-input" placeholder="Choose your secure password" required minlength="4" autocomplete="new-password">
+            <button type="button" class="btn-toggle-pwd" data-target="reg-password" title="Show/Hide password">👁️</button>
+          </div>
+        </div>
+
+        <div class="auth-form-group">
+          <label for="reg-password-confirm" class="auth-field-label">Confirm Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="reg-password-confirm" class="form-input" placeholder="Re-enter your password" required minlength="4" autocomplete="new-password">
+            <button type="button" class="btn-toggle-pwd" data-target="reg-password-confirm" title="Show/Hide password">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth-submit" id="btn-submit-register">
+          <span>✨ Create Account & Start Proposal</span>
+        </button>
+
+        <div class="auth-footer-help">
+          Your password encrypts your proposal drafts on the BioWriter Studio server.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Subtle Discreet Staff Access Footer (Option A) -->
+  <footer style="text-align: center; padding: 16px 24px; font-size: 0.74rem; color: #94a3b8; border-top: 1px solid #e2e8f0; background: #ffffff;">
+    <div style="display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap;">
+      <span>BioWriter Studio • BT_301 Introduction to Biotechnology</span>
+      <span>•</span>
+      <span>Authorship: 🛡️ Maya Abdelrazek & Youssef Aboulkheir</span>
+      <span>•</span>
+      <a href="faculty.html" id="link-footer-faculty" style="color: #64748b; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" title="BT_301 Course Faculty & Staff Access (Shortcut: Ctrl+Shift+F)">
+        <span>🔒</span> <span>Faculty & Staff Portal</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Universal Application Script (Works on GitHub Pages, Flask, Render, Vercel & Desktop) -->
+  <script src="studio.js" id="primary-app-js" onerror="if(!this._s1){this._s1=1;this.src='static/studio.js';}else if(this._s1===1){this._s1=2;this.src='../studio.js';}else if(this._s1===2){this._s1=3;this.src='../static/studio.js';}"></script>
+</body>
+</html>

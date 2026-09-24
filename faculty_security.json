@@ -1,0 +1,12 @@
+{
+  "description": "Salted PBKDF2-SHA256 password hashes for course instructors and review chairs.",
+  "password_hashes": [
+    "pbkdf2:sha256:1000000$LQLKFk32fn8Fq1tr$530f9cf3bbe60fbcb30ea6e905d8d0405231b68d5b2f6c406f7edc9585a1ad30",
+    "pbkdf2:sha256:1000000$W6pxVB7j2AtaSBwL$07ea6c2b43e8d2841f3e52e88f90e870ea988f6c7633712bce7d37bb8fc09699",
+    "pbkdf2:sha256:1000000$RK7S956OhF6hoztA$9b10e7d8f48eddcaff9294380b5a8eb4191efbb442a8d23e9912350c3c312af3",
+    "pbkdf2:sha256:1000000$cR9g62FRfrpKFQP9$59f2e37c0ee94a208f3b8ed102e58aa27e736d6708bd590feed0e34ec506e1a6",
+    "pbkdf2:sha256:1000000$pBiX5PSHWUrmjYgi$576d8accfdab8d07032cefb066493582c6e9aeccae43e7e1630f3439483e97bc",
+    "pbkdf2:sha256:1000000$fOe2K8TANckOtEru$032eaa09ab066cb1474446f584c398993370346d3a21263f63ac2fa31dd4cae4"
+  ],
+  "updated_at": "2026-09-24T11:00:00"
+}
